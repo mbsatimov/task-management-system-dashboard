@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.web.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["resources/js/*"]
+    }
+  },
+  "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts"]
+}
