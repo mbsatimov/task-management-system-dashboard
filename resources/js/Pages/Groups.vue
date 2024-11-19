@@ -1,3 +1,3 @@
 <template>
-    <div>Groups</div>
+  <div>Groups</div>
 </template>

@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { Sidebar } from "./Sidebar";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner"
+import { Sidebar } from "./Sidebar"
+import { Header } from "./Header"
 </script>
 <template>
-    <div class="h-screen lg:flex">
-        <Sidebar />
-        <main class="overflow-y-auto bg-[#FAFAFA] lg:flex-1">
-            <slot />
-        </main>
-        <Toaster />
+  <div class="flex h-screen flex-col lg:flex-row">
+    <Sidebar />
+    <div class="flex-1 overflow-y-auto bg-[#FAFAFA]">
+      <Header />
+      <main class="p-4 lg:p-6">
+        <slot />
+      </main>
     </div>
+    <Toaster />
+  </div>
 </template>

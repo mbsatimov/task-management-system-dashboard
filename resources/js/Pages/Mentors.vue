@@ -1,3 +1,3 @@
 <template>
-    <div>Mentors</div>
+  <div>Mentors</div>
 </template>
