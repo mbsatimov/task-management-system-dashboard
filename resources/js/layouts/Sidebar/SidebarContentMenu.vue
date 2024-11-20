@@ -1,28 +1,39 @@
 <script setup lang="ts">
 import type { NavItem } from "@/types/nav"
 import SidebarContentMenuItem from "./SidebarContentMenuItem.vue"
-import { LayoutListIcon } from "lucide-vue-next"
+import {
+  LayoutListIcon,
+  BoxesIcon,
+  UserRoundCheckIcon,
+  UsersIcon,
+  UserCogIcon,
+} from "lucide-vue-next"
 
 const items: NavItem[] = [
   {
-    title: "Users",
-    href: "users",
-    icon: LayoutListIcon,
-  },
-  {
     title: "Tasks",
-    href: "tasks",
+    href: "/tasks",
     icon: LayoutListIcon,
   },
   {
     title: "Mentors",
-    href: "mentors",
-    icon: LayoutListIcon,
+    href: "/mentors",
+    icon: UserRoundCheckIcon,
   },
   {
     title: "Groups",
-    href: "groups",
-    icon: LayoutListIcon,
+    href: "/groups",
+    icon: BoxesIcon,
+  },
+  {
+    title: "Users",
+    href: "/users",
+    icon: UsersIcon,
+  },
+  {
+    title: "Roles",
+    href: "/roles",
+    icon: UserCogIcon,
   },
 ]
 </script>

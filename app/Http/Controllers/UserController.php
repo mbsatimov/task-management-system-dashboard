@@ -7,7 +7,7 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(): \Inertia\Response
     {
         $users = User::paginate(10); // Use pagination for large datasets
 

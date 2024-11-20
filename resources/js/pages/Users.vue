@@ -29,7 +29,7 @@ defineProps<{
     </TableHeader>
     <TableBody>
       <TableRow v-for="user in users.data" :key="user.id">
-        <TableCell>{{ user.full_name }}</TableCell>
+        <TableCell>{{ user.first_name }} {{ user.last_name }}</TableCell>
         <TableCell>{{ user.email }}</TableCell>
         <TableCell>{{ user.role }}</TableCell>
         <TableCell>{{ user.created_at }}</TableCell>

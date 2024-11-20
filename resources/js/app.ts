@@ -4,13 +4,13 @@ import "../css/app.css"
 import { createApp, h } from "vue"
 import { createInertiaApp, Head, Link } from "@inertiajs/vue3"
 import { ZiggyVue } from "../../vendor/tightenco/ziggy"
-import Layout from "./Layouts/Layout.vue"
+import Layout from "@/layouts/Layout.vue"
 
 createInertiaApp({
   title: title => `Task Management - ${title}`,
   resolve: name => {
-    const pages = import.meta.glob("./Pages/**/*.vue", { eager: true })
-    const page = pages[`./Pages/${name}.vue`]
+    const pages = import.meta.glob("./pages/**/*.vue", { eager: true })
+    const page = pages[`./pages/${name}.vue`]
     page.default.layout = page.default.layout || Layout
     return page
   },
@@ -23,7 +23,7 @@ createInertiaApp({
       .mount(el)
   },
   progress: {
-    color: "#fff",
+    color: "#546FFF",
     includeCSS: true,
     showSpinner: true,
   },
