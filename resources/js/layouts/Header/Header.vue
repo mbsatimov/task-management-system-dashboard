@@ -10,7 +10,7 @@ import {
 import SidebarContent from "../Sidebar/SidebarContent.vue"
 </script>
 <template>
-  <div class="flex h-20 items-center bg-white px-4">
+  <div class="flex h-20 items-center justify-between bg-white px-4">
     <Sheet>
       <SheetTrigger as-child>
         <Button size="icon" variant="ghost" class="rounded-full lg:hidden">
@@ -22,5 +22,13 @@ import SidebarContent from "../Sidebar/SidebarContent.vue"
         <SidebarContent />
       </SheetContent>
     </Sheet>
+    <div />
+    <div>
+      <Button variant="destructive" as-child>
+        <Link href="/logout" method="post" as="button" class="nav-link">
+          Logout
+        </Link>
+      </Button>
+    </div>
   </div>
 </template>

@@ -16,11 +16,6 @@ const items: NavItem[] = [
     icon: LayoutListIcon,
   },
   {
-    title: "Mentors",
-    href: "/mentors",
-    icon: UserRoundCheckIcon,
-  },
-  {
     title: "Groups",
     href: "/groups",
     icon: BoxesIcon,
@@ -33,6 +28,11 @@ const items: NavItem[] = [
   {
     title: "Roles",
     href: "/roles",
+    icon: UserCogIcon,
+  },
+  {
+    title: "Permissions",
+    href: "/permissions",
     icon: UserCogIcon,
   },
 ]

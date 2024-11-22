@@ -9,6 +9,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card"
+import { FormMessage } from "@/components/ui/form"
 import AuthLayout from "@/layouts/AuthLayout.vue"
 
 const form = useForm({
@@ -18,7 +19,7 @@ const form = useForm({
 })
 
 const submit = () => {
-  form.post(route("login"), {
+  form.post("/login", {
     onError: () => form.reset("password", "remember"),
   })
 }
@@ -40,20 +41,24 @@ defineOptions({
       </CardHeader>
       <CardContent>
         <form @submit.prevent="submit" class="space-y-6">
-          <Input
-            name="email"
-            :modelValue="form.email"
-            type="email"
-            :message="form.errors.email"
-            placeholder="Email"
-          />
-          <Input
-            name="password"
-            :modelValue="form.password"
-            type="password"
-            :message="form.errors.password"
-            placeholder="Password"
-          />
+          <div>
+            <Input
+              name="email"
+              v-model="form.email"
+              type="email"
+              placeholder="Email"
+            />
+            <FormMessage>{{ form.errors.email }}</FormMessage>
+          </div>
+          <div>
+            <Input
+              name="password"
+              v-model="form.password"
+              type="password"
+              placeholder="Password"
+            />
+            <FormMessage>{{ form.errors.password }}</FormMessage>
+          </div>
 
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">

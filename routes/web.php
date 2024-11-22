@@ -9,30 +9,32 @@ use Inertia\Inertia;
 
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'index']);
+    Route::get('/register', [AuthController::class, 'registerPage']);
+    Route::post('/register', [AuthController::class, 'register']);
+
+    Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/', function () {
-    return Inertia::render("Home");
+    Route::get('/', function () {
+        return Inertia::render("Home");
+    });
+
+    Route::get('/tasks', function () {
+        return Inertia::render("Tasks");
+    });
+
+    Route::get('/groups', function () {
+        return Inertia::render("Groups");
+    });
+
+    Route::get('/users', [UserController::class, 'index']);
+
+    Route::resource('roles', RoleController::class);
+
+    Route::resource('permissions', PermissionController::class);
 });
 
-Route::get('/tasks', function () {
-    return Inertia::render("Tasks");
-});
-
-Route::get('/mentods', function () {
-    return Inertia::render("Mentors");
-});
-
-Route::get('/groups', function () {
-    return Inertia::render("Groups");
-});
-
-Route::get('/users', [UserController::class, 'index']);
-
-Route::resource('roles', RoleController::class);
-
-Route::get('/permissions', [PermissionController::class, 'index']);

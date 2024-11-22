@@ -4,16 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RolePostRequest;
 use App\Http\Requests\RolePutRequest;
-use App\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class RoleController extends Controller
 {
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
-        return Inertia::render('Roles/Page', [
-            'roles' => Role::all(),
+        $roles = Role::with('permissions')->orderBy('name', 'ASC')->get();
+
+        return Inertia::render('Roles/Index', [
+            'roles' => $roles,
+        ]);
+    }
+
+    public function create(): Response {
+        $permissions = Permission::orderBy('name', 'ASC')->get();
+
+        return Inertia::render('Roles/Create', [
+            'permissions' => $permissions
         ]);
     }
 
@@ -22,32 +34,35 @@ class RoleController extends Controller
 
         $role = Role::create($validated);
 
-        return back()->with(['message' => 'Role created successfully!', 'role' => $role]);
+        $role->syncPermissions($request->permissions);
+
+        return redirect('roles')->with(['message' => 'Role created successfully!', 'role' => $role]);
     }
 
-    public function update(RolePutRequest $request, int $id): RedirectResponse {
+    public function edit(Role $role): Response {
+        $role->load('permissions');
+
+        $permissions = Permission::orderBy('name', 'ASC')->get();
+
+        return Inertia::render('Roles/Edit', [
+            'role' => $role,
+            'permissions' => $permissions
+        ]);
+    }
+
+    public function update(RolePutRequest $request, Role $role): RedirectResponse {
         $validated = $request->validated();
 
-        $role = Role::find($id);
+        $role->update(['name' => $request->name]);
 
-        if (!$role) {
-            return back()->withErrors(['message' => 'Role not found!'], 404);
-        }
+        $role->syncPermissions($request->permissions);
 
-        $role->update($validated);
-
-        return back()->with(['message' => 'Role updated successfully!', 'role' => $role]);
+        return redirect('roles')->with(['message' => 'Role updated successfully!', 'role' => $role]);
     }
 
-    public function destroy(int $id): RedirectResponse {
-        $role = Role::find($id);
-
-        if (!$role) {
-            return back()->withErrors(['message' => 'Role not found!'], 404);
-        }
-
+    public function destroy(Role $role): RedirectResponse {
         $role->delete();
 
-        return back()->with(['message' => 'Role deleted successfully!']);
+        return redirect('roles')->with(['message' => 'Role deleted successfully!']);
     }
 }

@@ -1,3 +1,3 @@
 <template>
-  <div>Hello what is your name</div>
+  <div>Home</div>
 </template>

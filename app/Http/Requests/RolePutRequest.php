@@ -22,7 +22,8 @@ class RolePutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:255'],
+            'name' => ['required', 'unique:permissions', 'min:3', 'max:255'],
+            'permissions' => ['required', 'array'],
         ];
     }
 }
