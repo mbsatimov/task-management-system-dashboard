@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { router } from "@inertiajs/vue3"
+<script lang="ts" setup>
+import { router, usePage } from "@inertiajs/vue3"
 import { EditIcon, Trash2Icon } from "lucide-vue-next"
 import {
   Table,
@@ -11,17 +11,20 @@ import {
 } from "@/components/ui/table"
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { User } from "@/types/models/user"
 import { Pagination } from "@/types/pagination"
+import { toast } from "vue-sonner"
+import { computed } from "vue"
+import { Badge } from "@/components/ui/badge"
 
 defineProps<{
   users: Pagination<User>
@@ -30,12 +33,20 @@ defineProps<{
 const onDelete = (id: number) => {
   router.delete(`/users/${id}`)
 }
+
+const page = usePage<{
+  flash: { message?: string }
+}>()
+const message = computed(() => page.props.flash.message)
+if (message.value) {
+  toast.success(message.value)
+}
 </script>
 
 <template>
   <div>
     <h1 class="py-4 text-2xl font-bold">Roles</h1>
-    <div className="mb-4 flex justify-end">
+    <div class="mb-4 flex justify-end">
       <Button as-child>
         <Link href="/users/create">Create new User</Link>
       </Button>
@@ -46,28 +57,27 @@ const onDelete = (id: number) => {
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
-          <TableHead>Actions</TableHead>
+          <TableHead class="text-end">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow v-for="user in users.data" :key="user.id">
           <TableCell>{{ user.name }}</TableCell>
           <TableCell>{{ user.email }}</TableCell>
-          <TableCell>
-            <span v-for="(role, i) in user.roles" :key="role.id">
+          <TableCell class="space-x-1">
+            <Badge v-for="(role, i) in user.roles" :key="role.id">
               {{ role.name }}
-              <span v-if="i < user.roles.length - 1">, </span>
-            </span>
+            </Badge>
           </TableCell>
           <TableCell class="flex justify-end gap-2">
-            <Button size="icon" as-child>
+            <Button as-child size="icon">
               <Link :href="`/users/${user.id}/edit`">
                 <EditIcon />
               </Link>
             </Button>
             <AlertDialog>
               <AlertDialogTrigger>
-                <Button variant="destructive" size="icon">
+                <Button size="icon" variant="destructive">
                   <Trash2Icon />
                 </Button>
               </AlertDialogTrigger>
@@ -80,8 +90,8 @@ const onDelete = (id: number) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button variant="destructive" size="sm" as-child>
-                    <AlertDialogAction @click="onDelete(role.id)">
+                  <Button as-child size="sm" variant="destructive">
+                    <AlertDialogAction @click="onDelete(user.id)">
                       Delete
                     </AlertDialogAction>
                   </Button>

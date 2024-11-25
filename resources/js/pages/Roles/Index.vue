@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { router } from "@inertiajs/vue3"
+<script lang="ts" setup>
+import { router, usePage } from "@inertiajs/vue3"
 import { EditIcon, Trash2Icon } from "lucide-vue-next"
 import {
   Table,
@@ -12,15 +12,17 @@ import {
 import type { Role } from "@/types/models/role"
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import { toast } from "vue-sonner"
+import { computed } from "vue"
 
 defineProps<{
   roles: Role[]
@@ -29,12 +31,19 @@ defineProps<{
 const onDelete = (id: number) => {
   router.delete(`/roles/${id}`)
 }
-</script>
 
+const page = usePage<{
+  flash: { message?: string }
+}>()
+const message = computed(() => page.props.flash.message)
+if (message.value) {
+  toast.success(message.value)
+}
+</script>
 <template>
   <div>
     <h1 class="py-4 text-2xl font-bold">Roles</h1>
-    <div className="mb-4 flex justify-end">
+    <div class="mb-4 flex justify-end">
       <Button as-child>
         <Link href="/roles/create">Create new Role</Link>
       </Button>
@@ -58,14 +67,14 @@ const onDelete = (id: number) => {
             </span>
           </TableCell>
           <TableCell class="flex justify-end gap-2">
-            <Button size="icon" as-child>
+            <Button as-child size="icon">
               <Link :href="`/roles/${role.id}/edit`">
                 <EditIcon />
               </Link>
             </Button>
             <AlertDialog>
               <AlertDialogTrigger>
-                <Button variant="destructive" size="icon">
+                <Button size="icon" variant="destructive">
                   <Trash2Icon />
                 </Button>
               </AlertDialogTrigger>
@@ -78,7 +87,7 @@ const onDelete = (id: number) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button variant="destructive" size="sm" as-child>
+                  <Button as-child size="sm" variant="destructive">
                     <AlertDialogAction @click="onDelete(role.id)">
                       Delete
                     </AlertDialogAction>

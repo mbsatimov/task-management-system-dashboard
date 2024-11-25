@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useForm } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -18,16 +18,19 @@ defineProps<{
   permissions: Permission[]
 }>()
 
-const form = useForm<{ name: string; permissions: number[] }>({
+const form = useForm<{
+  name: string
+  permissions: string[]
+}>({
   name: "",
   permissions: [],
 })
 
-const handleChange = (id: number) => {
-  if (form.permissions.includes(id)) {
-    form.permissions = form.permissions.filter(p => p !== id)
+const handleChange = (name: string) => {
+  if (form.permissions.includes(name)) {
+    form.permissions = form.permissions.filter(p => p !== name)
   } else {
-    form.permissions.push(id)
+    form.permissions.push(name)
   }
 }
 
@@ -40,10 +43,10 @@ const submit = () => {
     <CardHeader>
       <CardTitle>Role/Create</CardTitle>
     </CardHeader>
-    <form @submit.prevent="submit" class="space-y-6">
+    <form class="space-y-6" @submit.prevent="submit">
       <CardContent>
         <div>
-          <Input name="name" v-model="form.name" placeholder="Name" />
+          <Input v-model="form.name" name="name" placeholder="Name" />
           <FormMessage>{{ form.errors.name }}</FormMessage>
         </div>
         <div class="mt-4">
@@ -53,26 +56,27 @@ const submit = () => {
           >
             <div
               v-for="permission in permissions"
-              :key="permission.id"
+              :key="permission.name"
               class="flex items-center gap-2"
             >
               <Checkbox
-                :checked="form.permissions.includes(permission.id)"
-                @update:checked="handleChange(permission.id)"
-                :id="`permission-${permission.id}`"
+                :id="`permission-${permission.name}`"
+                :checked="form.permissions.includes(permission.name)"
+                @update:checked="handleChange(permission.name)"
               />
-              <Label :for="`permission-${permission.id}`">
+              <Label :for="`permission-${permission.name}`">
                 {{ permission.name }}
               </Label>
             </div>
           </div>
+          <FormMessage>{{ form.errors.permissions }}</FormMessage>
         </div>
       </CardContent>
       <CardFooter>
-        <Button variant="secondary" as-child>
+        <Button as-child variant="secondary">
           <Link href="/roles">Cancel</Link>
         </Button>
-        <Button type="submit" class="primary-btn" :disabled="form.processing">
+        <Button :disabled="form.processing" class="primary-btn" type="submit">
           Create
         </Button>
       </CardFooter>

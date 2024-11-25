@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useForm } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -42,10 +42,10 @@ const submit = () => {
     <CardHeader>
       <CardTitle>Role/Update</CardTitle>
     </CardHeader>
-    <form @submit.prevent="submit" class="space-y-6">
+    <form class="space-y-6" @submit.prevent="submit">
       <CardContent>
         <div>
-          <Input name="name" v-model="form.name" placeholder="Name" />
+          <Input v-model="form.name" name="name" placeholder="Name" />
           <FormMessage>{{ form.errors.name }}</FormMessage>
         </div>
         <div class="mt-4">
@@ -59,22 +59,23 @@ const submit = () => {
               class="flex items-center gap-2"
             >
               <Checkbox
+                :id="`permission-${permission.name}`"
                 :checked="form.permissions.includes(permission.name)"
                 @update:checked="handleChange(permission.name)"
-                :id="`permission-${permission.name}`"
               />
               <Label :for="`permission-${permission.name}`">
                 {{ permission.name }}
               </Label>
             </div>
           </div>
+          <FormMessage>{{ form.errors.permissions }}</FormMessage>
         </div>
       </CardContent>
       <CardFooter>
-        <Button variant="secondary" as-child>
+        <Button as-child variant="secondary">
           <Link href="/roles">Cancel</Link>
         </Button>
-        <Button type="submit" class="primary-btn" :disabled="form.processing">
+        <Button :disabled="form.processing" class="primary-btn" type="submit">
           Update
         </Button>
       </CardFooter>

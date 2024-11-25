@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { router } from "@inertiajs/vue3"
+<script lang="ts" setup>
+import { router, usePage } from "@inertiajs/vue3"
 import { toast } from "vue-sonner"
 import { EditIcon, Trash2Icon } from "lucide-vue-next"
 import {
@@ -13,18 +13,18 @@ import {
 import type { Permission } from "@/types/models/permission"
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import { computed } from "vue"
 
-const props = defineProps<{
-  message?: string
+defineProps<{
   permissions: Permission[]
 }>()
 
@@ -32,15 +32,19 @@ const onDelete = (id: number) => {
   router.delete(`/permissions/${id}`)
 }
 
-if (props.message) {
-  toast.success(props.message)
+const page = usePage<{
+  flash: { message?: string }
+}>()
+const message = computed(() => page.props.flash.message)
+if (message.value) {
+  toast.success(message.value)
 }
 </script>
 
 <template>
   <div>
     <h1 class="py-4 text-2xl font-bold">Permissions</h1>
-    <div className="mb-4 flex justify-end">
+    <div class="mb-4 flex justify-end">
       <Button as-child>
         <Link href="/permissions/create">Create new Permission</Link>
       </Button>
@@ -61,14 +65,14 @@ if (props.message) {
           <TableCell>{{ index + 1 }}</TableCell>
           <TableCell class="w-1/2">{{ permission.name }}</TableCell>
           <TableCell class="flex justify-end gap-2">
-            <Button size="icon" as-child>
+            <Button as-child size="icon">
               <Link :href="`/permissions/${permission.id}/edit`">
                 <EditIcon />
               </Link>
             </Button>
             <AlertDialog>
               <AlertDialogTrigger>
-                <Button variant="destructive" size="icon">
+                <Button size="icon" variant="destructive">
                   <Trash2Icon />
                 </Button>
               </AlertDialogTrigger>
@@ -81,7 +85,7 @@ if (props.message) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button variant="destructive" size="sm" as-child>
+                  <Button as-child size="sm" variant="destructive">
                     <AlertDialogAction @click="onDelete(permission.id)">
                       Delete
                     </AlertDialogAction>

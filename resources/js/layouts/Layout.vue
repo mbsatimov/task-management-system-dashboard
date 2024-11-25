@@ -1,7 +1,7 @@
-<script setup lang="ts">
-import { Toaster } from "@/components/ui/sonner"
+<script lang="ts" setup>
 import { Sidebar } from "./Sidebar"
 import { Header } from "./Header"
+import { Toaster } from "vue-sonner"
 </script>
 <template>
   <div class="flex h-screen flex-col lg:flex-row">
@@ -12,6 +12,6 @@ import { Header } from "./Header"
         <slot />
       </main>
     </div>
-    <Toaster />
+    <Toaster position="top-center" richColors />
   </div>
 </template>
