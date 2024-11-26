@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\PermissionDestroyAction;
+use App\Actions\PermissionGetAllAction;
+use App\Actions\PermissionStoreAction;
+use App\Actions\PermissionUpdateAction;
 use App\Http\Requests\PermissionPostRequest;
 use App\Http\Requests\PermissionPutRequest;
 use Illuminate\Http\RedirectResponse;
@@ -11,19 +15,19 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    public function index(): Response
+    public function index(PermissionGetAllAction $permissionGetAllAction): Response
     {
-        $permissions = Permission::get();
+        $permissions = $permissionGetAllAction();
         return Inertia::render('Permissions/Index', [
             'permissions' => $permissions
         ]);
     }
 
-    public function store(PermissionPostRequest $request): RedirectResponse
+    public function store(PermissionPostRequest $request, PermissionStoreAction $permissionStoreAction): RedirectResponse
     {
         $validated = $request->validated();
 
-        Permission::create($validated);
+        $permissionStoreAction($validated);
 
         return redirect('permissions')->with('message', 'Permission created successfully');
     }
@@ -40,18 +44,18 @@ class PermissionController extends Controller
         ]);
     }
 
-    public function update(PermissionPutRequest $request, Permission $permission): RedirectResponse
+    public function update(PermissionPutRequest $request, Permission $permission, PermissionUpdateAction $permissionUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
 
-        $permission->update($validated);
+        $permissionUpdateAction($permission, $validated);
 
         return redirect('permissions')->with('message', 'Permission updated successfully');
     }
 
-    public function destroy(Permission $permission): RedirectResponse
+    public function destroy(Permission $permission, PermissionDestroyAction $permissionDestroyAction): RedirectResponse
     {
-        $permission->delete();
+        $permissionDestroyAction($permission);
         return redirect('permissions')->with('message', 'Permission deleted successfully');
     }
 }

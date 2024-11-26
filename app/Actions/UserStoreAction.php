@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Actions\User;
+namespace App\Actions;
 
 use App\Models\User;
 
-class StoreUserAction
+class UserStoreAction
 {
     public function __invoke(array $data, array $roles): User
     {

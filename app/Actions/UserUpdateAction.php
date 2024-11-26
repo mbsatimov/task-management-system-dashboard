@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Actions\User;
+namespace App\Actions;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class UpdateUserAction
+class UserUpdateAction
 {
     public function __invoke(User $user, array $data, array $roles): void
     {

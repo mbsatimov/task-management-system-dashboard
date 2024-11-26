@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\RecordUserLoginAction;
-use App\Actions\RecordUserRegisterAction;
+use App\Actions\AuthLoginAction;
+use App\Actions\AuthRegisterAction;
 use App\Http\Requests\LoginPostRequest;
 use App\Http\Requests\RegisterPostRequest;
 use Illuminate\Http\RedirectResponse;
@@ -24,16 +24,16 @@ class AuthController extends Controller
     }
 
 
-    public function register(RegisterPostRequest $request, RecordUserRegisterAction $recordRegister): RedirectResponse
+    public function register(RegisterPostRequest $request, AuthRegisterAction $registerAction): RedirectResponse
     {
         $request->validated();
 
-        $recordRegister($request);
+        $registerAction($request);
 
         return redirect('/')->with('message', 'You have successfully registered!');
     }
 
-    public function login(LoginPostRequest $request, RecordUserLoginAction $recordLogin): RedirectResponse
+    public function login(LoginPostRequest $request, AuthLoginAction $loginAction): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -41,7 +41,7 @@ class AuthController extends Controller
             return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
         }
 
-        $recordLogin($request);
+        $loginAction($request);
 
         return redirect('/')->with('message', 'You have successfully logged in!');
     }

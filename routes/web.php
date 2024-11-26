@@ -9,9 +9,7 @@ use Inertia\Inertia;
 
 Route::group(['middleware' => ['role:super-admin|admin']], function () {
     Route::resource('users', UserController::class);
-
     Route::resource('roles', RoleController::class);
-
     Route::resource('permissions', PermissionController::class);
 });
 

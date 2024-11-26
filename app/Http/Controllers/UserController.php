@@ -2,50 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\User\StoreUserAction;
-use App\Actions\User\UpdateUserAction;
+use App\Actions\RoleGetAllAction;
+use App\Actions\UserDestroyAction;
+use App\Actions\UserGetPaginatedAction;
+use App\Actions\UserStoreAction;
+use App\Actions\UserUpdateAction;
+use App\Actions\UserWithRolesAction;
 use App\Http\Requests\UserPostRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index(): Response
+    public function index(UserGetPaginatedAction $userGetPaginatedAction): Response
     {
-        $users = User::with('roles')->paginate(10);
+        $users = $userGetPaginatedAction();
 
         return Inertia::render('Users/Index', [
             'users' => $users,
         ]);
     }
 
-    public function store(UserPostRequest $request, StoreUserAction $storeUserAction): RedirectResponse
+    public function store(UserPostRequest $request, UserStoreAction $userStoreAction): RedirectResponse
     {
         $validated = $request->validated();
-
-        $storeUserAction($validated, $request->roles);
+        $userStoreAction($validated, $request->roles);
 
         return redirect('users')->with('message', 'User created successfully');
     }
 
-    public function create(): Response
+    public function create(RoleGetAllAction $roleGetAllAction): Response
     {
-        $roles = Role::get();
+        $roles = $roleGetAllAction();
 
         return Inertia::render('Users/Create', [
             'roles' => $roles
         ]);
     }
 
-    public function edit(User $user): Response
+    public function edit(User $user, UserWithRolesAction $userWithRolesAction, RoleGetAllAction $roleGetAllAction): Response
     {
-        $user->load('roles');
-
-        $roles = Role::get();
+        $user = $userWithRolesAction($user);
+        $roles = $roleGetAllAction();
 
         return Inertia::render('Users/Edit', [
             'user' => $user,
@@ -53,18 +54,18 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UserPutRequest $request, User $user, UpdateUserAction $updateUserAction): RedirectResponse
+    public function update(UserPutRequest $request, User $user, UserUpdateAction $userUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
-
-        $updateUserAction($user, $validated, $request->roles);
+        $userUpdateAction($user, $validated, $request->roles);
 
         return redirect('users')->with('message', 'User updated successfully');
     }
 
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user, UserDestroyAction $userDestroyAction): RedirectResponse
     {
-        $user->delete();
+        $userDestroyAction($user);
+
         return redirect('users')->with('message', 'User deleted successfully');
     }
 }

@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class RecordUserRegisterAction
+class AuthRegisterAction
 {
     public function __invoke(RegisterPostRequest $request): void
     {

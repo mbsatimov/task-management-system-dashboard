@@ -4,7 +4,7 @@ namespace App\Actions;
 
 use App\Http\Requests\LoginPostRequest;
 
-class RecordUserLoginAction
+class AuthLoginAction
 {
     public function __invoke(LoginPostRequest $request): void
     {

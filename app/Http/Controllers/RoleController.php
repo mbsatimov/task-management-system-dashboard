@@ -2,50 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\PermissionGetAllAction;
+use App\Actions\RoleDestroyAction;
+use App\Actions\RoleGetAllWithPermissionsAction;
+use App\Actions\RoleGetWithPermissionAction;
+use App\Actions\RoleStoreAction;
+use App\Actions\RoleUpdateAction;
 use App\Http\Requests\RolePostRequest;
 use App\Http\Requests\RolePutRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    public function index(): Response
+    public function index(RoleGetAllWithPermissionsAction $roleGetAllWithPermissionsAction): Response
     {
-        $roles = Role::with('permissions')->get();
+        $roles = $roleGetAllWithPermissionsAction();
 
         return Inertia::render('Roles/Index', [
             'roles' => $roles,
         ]);
     }
 
-    public function store(RolePostRequest $request): RedirectResponse
+    public function store(RolePostRequest $request, RoleStoreAction $roleStoreAction): RedirectResponse
     {
         $validated = $request->validated();
 
-        $role = Role::create($validated);
+        $roleStoreAction($validated, $request->permissions);
 
-        $role->syncPermissions($request->permissions);
-
-        return redirect('roles')->with(['message' => 'Role created successfully!', 'role' => $role]);
+        return redirect('roles')->with(['message' => 'Role created successfully!']);
     }
 
-    public function create(): Response
+    public function create(PermissionGetAllAction $permissionGetAllAction): Response
     {
-        $permissions = Permission::orderBy('name', 'ASC')->get();
+        $permissions = $permissionGetAllAction();
 
         return Inertia::render('Roles/Create', [
             'permissions' => $permissions
         ]);
     }
 
-    public function edit(Role $role): Response
+    public function edit(Role $role, RoleGetWithPermissionAction $roleGetWithPermissionAction, PermissionGetAllAction $permissionGetAllAction): Response
     {
-        $role->load('permissions');
+        $role = $roleGetWithPermissionAction($role);
 
-        $permissions = Permission::get();
+        $permissions = $permissionGetAllAction();
 
         return Inertia::render('Roles/Edit', [
             'role' => $role,
@@ -53,20 +56,17 @@ class RoleController extends Controller
         ]);
     }
 
-    public function update(RolePutRequest $request, Role $role): RedirectResponse
+    public function update(RolePutRequest $request, Role $role, RoleUpdateAction $roleUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
+        $roleUpdateAction($role, $validated, $request->permissions);
 
-        $role->update(['name' => $request->name]);
-
-        $role->syncPermissions($request->permissions);
-
-        return redirect('roles')->with(['message' => 'Role updated successfully!', 'role' => $role]);
+        return redirect('roles')->with(['message' => 'Role updated successfully!']);
     }
 
-    public function destroy(Role $role): RedirectResponse
+    public function destroy(Role $role, RoleDestroyAction $roleDestroyAction): RedirectResponse
     {
-        $role->delete();
+        $roleDestroyAction($role);
 
         return redirect('roles')->with(['message' => 'Role deleted successfully!']);
     }
