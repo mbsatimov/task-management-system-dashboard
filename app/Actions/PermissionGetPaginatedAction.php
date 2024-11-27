@@ -2,22 +2,21 @@
 
 namespace App\Actions;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\Permission\Models\Permission;
 
-class UserGetPaginatedWithRolesAction
+class PermissionGetPaginatedAction
 {
     public function __invoke(Request $request): LengthAwarePaginator
     {
-        $query = User::query();
+        $query = Permission::query();
 
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%");
+            $query->where('name', 'like', "%$search%");
         }
 
-        return $query->with('roles')->paginate(20)->withQueryString();
+        return $query->paginate(20)->withQueryString();
     }
 }

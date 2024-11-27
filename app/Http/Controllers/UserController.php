@@ -12,17 +12,19 @@ use App\Http\Requests\UserPostRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class UserController extends Controller
 {
-    public function index(UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
+    public function index(Request $request, UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction): Response
     {
-        $users = $userGetPaginatedAction();
+        $users = $userGetPaginatedWithRolesAction($request);
 
         return Inertia::render('Users/Index', [
             'users' => $users,
+            'searchTerm' => $request->search
         ]);
     }
 

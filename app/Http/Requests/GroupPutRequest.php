@@ -23,9 +23,14 @@ class GroupPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:groups,name',
-            'userIds' => 'required|array',
-            'userIds.*' => 'exists:users,id',
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                'unique:groups,name,' . $this->group->id
+            ],
+            'userIds' => ['required', 'array'],
+            'userIds.*' => ['exists:users,id'],
         ];
     }
 }

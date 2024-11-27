@@ -1,4 +1,4 @@
-export interface Pagination<T> {
+export interface Pagination<T = any> {
   data: T[]
   links: {
     url: string | null

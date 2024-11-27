@@ -4,7 +4,7 @@ namespace App\Actions;
 
 use App\Models\Group;
 
-class GroupGetWithPaginatedUsersAction
+class GroupGetWithUsersAction
 {
     public function __invoke(Group $group): Group
     {

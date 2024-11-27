@@ -22,11 +22,26 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
+import { Input } from "@/components/ui/input"
+import { debounce } from "lodash"
+import { Pagination } from "@/types/pagination"
+import PaginationLinks from "@/components/PaginationLinks.vue"
 
-defineProps<{
-  permissions: Permission[]
+const props = defineProps<{
+  permissions: Pagination<Permission>
+  searchTerm: string | null
 }>()
+
+const search = ref(props.searchTerm || "")
+
+watch(search, value =>
+  debounce(
+    () =>
+      router.get("/permissions", { search: value }, { preserveState: true }),
+    500
+  )()
+)
 
 const onDelete = (id: number) => {
   router.delete(`/permissions/${id}`)
@@ -44,7 +59,13 @@ if (message.value) {
 <template>
   <div>
     <h1 class="py-4 text-2xl font-bold">Permissions</h1>
-    <div class="mb-4 flex justify-end">
+    <div class="mb-4 flex justify-between gap-4">
+      <Input
+        v-model="search"
+        class="max-w-md"
+        placeholder="Search..."
+        type="text"
+      />
       <Button as-child>
         <Link href="/permissions/create">Create new Permission</Link>
       </Button>
@@ -59,10 +80,12 @@ if (message.value) {
       </TableHeader>
       <TableBody>
         <TableRow
-          v-for="(permission, index) in permissions"
+          v-for="(permission, index) in permissions.data"
           :key="permission.id"
         >
-          <TableCell>{{ index + 1 }}</TableCell>
+          <TableCell>{{
+            (permissions.current_page - 1) * permissions.per_page + index + 1
+          }}</TableCell>
           <TableCell class="w-1/2">{{ permission.name }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
@@ -97,5 +120,6 @@ if (message.value) {
         </TableRow>
       </TableBody>
     </Table>
+    <PaginationLinks :paginator="permissions" class="mt-4" />
   </div>
 </template>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\GroupDestroyAction;
 use App\Actions\GroupGetPaginatedWithUsersAction;
-use App\Actions\GroupGetWithPaginatedUsersAction;
+use App\Actions\GroupGetWithUsersAction;
 use App\Actions\GroupStoreAction;
 use App\Actions\GroupUpdateAction;
 use App\Actions\UserGetPaginatedWithRolesAction;
@@ -12,6 +12,7 @@ use App\Http\Requests\GroupPostRequest;
 use App\Http\Requests\GroupPutRequest;
 use App\Models\Group;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -25,21 +26,13 @@ class GroupController
         ]);
     }
 
-    public function show(Group $group, GroupGetWithPaginatedUsersAction $groupGetWithPaginatedUsersAction): Response
+    public function create(Request $request, UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
     {
-        $group = $groupGetWithPaginatedUsersAction($group);
-
-        return Inertia::render('Groups/Show', [
-            'group' => $group
-        ]);
-    }
-
-    public function create(UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
-    {
-        $users = $userGetPaginatedAction();
+        $users = $userGetPaginatedAction($request);
 
         return Inertia::render('Groups/Create', [
-            'users' => $users
+            'users' => $users,
+            'searchTerm' => $request->search
         ]);
     }
 
@@ -51,14 +44,15 @@ class GroupController
         return redirect('groups')->with('message', 'Group created successfully');
     }
 
-    public function edit(Group $group, GroupGetWithPaginatedUsersAction $groupGetWithPaginatedUsersAction, UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
+    public function edit(Request $request, Group $group, GroupGetWithUsersAction $groupGetWithUsersAction, UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
     {
-        $group = $groupGetWithPaginatedUsersAction($group);
-        $users = $userGetPaginatedAction();
+        $group = $groupGetWithUsersAction($group);
+        $users = $userGetPaginatedAction($request);
 
         return Inertia::render('Groups/Edit', [
             'group' => $group,
-            'users' => $users
+            'users' => $users,
+            'searchTerm' => $request->search
         ]);
     }
 

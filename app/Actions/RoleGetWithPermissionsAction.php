@@ -8,7 +8,7 @@ class RoleGetWithPermissionsAction
 {
     public function __invoke(Role $role): Role
     {
-        $role->load('permission');
+        $role->load('permissions');
         return $role;
     }
 }

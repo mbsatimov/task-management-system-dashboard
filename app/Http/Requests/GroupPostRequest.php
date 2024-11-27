@@ -23,8 +23,13 @@ class GroupPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:groups,name',
-            'userIds' => 'required|array',
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                'unique:groups,name'
+            ],
+            'userIds' => ['required', 'array'],
         ];
     }
 }
