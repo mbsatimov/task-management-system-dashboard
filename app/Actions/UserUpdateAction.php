@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserUpdateAction
 {
-    public function __invoke(User $user, array $data, array $roles): void
+    public function __invoke(User $user, array $data): void
     {
         if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
@@ -16,6 +16,6 @@ class UserUpdateAction
         }
 
         $user->update($data);
-        $user->syncRoles($roles);
+        $user->syncRoles($data['roles']);
     }
 }

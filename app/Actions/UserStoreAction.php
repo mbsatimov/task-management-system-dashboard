@@ -6,11 +6,9 @@ use App\Models\User;
 
 class UserStoreAction
 {
-    public function __invoke(array $data, array $roles): User
+    public function __invoke(array $data): void
     {
         $user = User::create($data);
-        $user->syncRoles($roles);
-
-        return $user;
+        $user->syncRoles($data['roles']);
     }
 }

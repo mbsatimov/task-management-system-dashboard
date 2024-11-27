@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RolePostRequest extends FormRequest
+class GroupPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,8 @@ class RolePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'unique:roles', 'min:3', 'max:255'],
-            'permissions' => ['required', 'array'],
+            'name' => 'required|string|unique:groups,name',
+            'userIds' => 'required|array',
         ];
     }
 }

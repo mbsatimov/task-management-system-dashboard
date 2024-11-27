@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\RoleGetAllAction;
 use App\Actions\UserDestroyAction;
-use App\Actions\UserGetPaginatedAction;
+use App\Actions\UserGetPaginatedWithRolesAction;
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
 use App\Actions\UserWithRolesAction;
@@ -17,7 +17,7 @@ use Inertia\Response;
 
 class UserController extends Controller
 {
-    public function index(UserGetPaginatedAction $userGetPaginatedAction): Response
+    public function index(UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
     {
         $users = $userGetPaginatedAction();
 
@@ -29,7 +29,7 @@ class UserController extends Controller
     public function store(UserPostRequest $request, UserStoreAction $userStoreAction): RedirectResponse
     {
         $validated = $request->validated();
-        $userStoreAction($validated, $request->roles);
+        $userStoreAction($validated);
 
         return redirect('users')->with('message', 'User created successfully');
     }
@@ -57,7 +57,7 @@ class UserController extends Controller
     public function update(UserPutRequest $request, User $user, UserUpdateAction $userUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
-        $userUpdateAction($user, $validated, $request->roles);
+        $userUpdateAction($user, $validated);
 
         return redirect('users')->with('message', 'User updated successfully');
     }

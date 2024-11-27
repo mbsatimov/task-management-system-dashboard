@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\PermissionGetAllAction;
 use App\Actions\RoleDestroyAction;
 use App\Actions\RoleGetAllWithPermissionsAction;
-use App\Actions\RoleGetWithPermissionAction;
+use App\Actions\RoleGetWithPermissionsAction;
 use App\Actions\RoleStoreAction;
 use App\Actions\RoleUpdateAction;
 use App\Http\Requests\RolePostRequest;
@@ -30,7 +30,7 @@ class RoleController extends Controller
     {
         $validated = $request->validated();
 
-        $roleStoreAction($validated, $request->permissions);
+        $roleStoreAction($validated);
 
         return redirect('roles')->with(['message' => 'Role created successfully!']);
     }
@@ -44,7 +44,7 @@ class RoleController extends Controller
         ]);
     }
 
-    public function edit(Role $role, RoleGetWithPermissionAction $roleGetWithPermissionAction, PermissionGetAllAction $permissionGetAllAction): Response
+    public function edit(Role $role, RoleGetWithPermissionsAction $roleGetWithPermissionAction, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $role = $roleGetWithPermissionAction($role);
 
@@ -59,7 +59,7 @@ class RoleController extends Controller
     public function update(RolePutRequest $request, Role $role, RoleUpdateAction $roleUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
-        $roleUpdateAction($role, $validated, $request->permissions);
+        $roleUpdateAction($role, $validated);
 
         return redirect('roles')->with(['message' => 'Role updated successfully!']);
     }

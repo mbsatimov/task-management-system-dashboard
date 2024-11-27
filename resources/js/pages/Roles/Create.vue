@@ -27,10 +27,10 @@ const form = useForm<{
 })
 
 const handleChange = (name: string) => {
-  if (form.permissions.includes(name)) {
-    form.permissions = form.permissions.filter(p => p !== name)
+  if (form.users.includes(name)) {
+    form.users = form.users.filter(p => p !== name)
   } else {
-    form.permissions.push(name)
+    form.users.push(name)
   }
 }
 
@@ -61,7 +61,7 @@ const submit = () => {
             >
               <Checkbox
                 :id="`permission-${permission.name}`"
-                :checked="form.permissions.includes(permission.name)"
+                :checked="form.users.includes(permission.name)"
                 @update:checked="handleChange(permission.name)"
               />
               <Label :for="`permission-${permission.name}`">
@@ -69,7 +69,7 @@ const submit = () => {
               </Label>
             </div>
           </div>
-          <FormMessage>{{ form.errors.permissions }}</FormMessage>
+          <FormMessage>{{ form.errors.users }}</FormMessage>
         </div>
       </CardContent>
       <CardFooter>

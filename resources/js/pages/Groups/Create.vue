@@ -12,17 +12,19 @@ import {
 import { FormMessage } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import type { Role } from "@/types/models/role"
-import type { Permission } from "@/types/models/permission"
+import { User } from "@/types/models/user"
+import { Pagination } from "@/types/pagination"
 
-const { role, permissions } = defineProps<{
-  role: Role
-  permissions: Permission[]
+defineProps<{
+  users: Pagination<User>
 }>()
 
-const form = useForm<{ name: string; permissions: string[] }>({
-  name: role.name,
-  permissions: role.permissions.map(p => p.name),
+const form = useForm<{
+  name: string
+  users: string[]
+}>({
+  name: "",
+  users: [],
 })
 
 const handleChange = (name: string) => {
@@ -34,13 +36,13 @@ const handleChange = (name: string) => {
 }
 
 const submit = () => {
-  form.put(`/roles/${role.id}`)
+  form.post("/groups")
 }
 </script>
 <template>
   <Card>
     <CardHeader>
-      <CardTitle>Role/Update</CardTitle>
+      <CardTitle>Group/Create</CardTitle>
     </CardHeader>
     <form class="space-y-6" @submit.prevent="submit">
       <CardContent>
@@ -49,22 +51,22 @@ const submit = () => {
           <FormMessage>{{ form.errors.name }}</FormMessage>
         </div>
         <div class="mt-4">
-          <h2 class="mb-2 text-lg font-semibold">Permissions</h2>
+          <h2 class="mb-2 text-lg font-semibold">Users</h2>
           <div
             class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4"
           >
             <div
-              v-for="permission in permissions"
-              :key="permission.name"
+              v-for="user in users.data"
+              :key="user.name"
               class="flex items-center gap-2"
             >
               <Checkbox
-                :id="`permission-${permission.name}`"
-                :checked="form.users.includes(permission.name)"
-                @update:checked="handleChange(permission.name)"
+                :id="`user-${user.name}`"
+                :checked="form.users.includes(user.name)"
+                @update:checked="handleChange(user.name)"
               />
-              <Label :for="`permission-${permission.name}`">
-                {{ permission.name }}
+              <Label :for="`user-${user.name}`">
+                {{ user.name }}
               </Label>
             </div>
           </div>
@@ -73,10 +75,10 @@ const submit = () => {
       </CardContent>
       <CardFooter>
         <Button as-child variant="secondary">
-          <Link href="/roles">Cancel</Link>
+          <Link href="/groups">Cancel</Link>
         </Button>
         <Button :disabled="form.processing" class="primary-btn" type="submit">
-          Update
+          Create
         </Button>
       </CardFooter>
     </form>

@@ -5,7 +5,7 @@ namespace App\Actions;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class UserGetPaginatedAction
+class UserGetPaginatedWithRolesAction
 {
     public function __invoke(): LengthAwarePaginator
     {
