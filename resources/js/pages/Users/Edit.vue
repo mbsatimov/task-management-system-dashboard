@@ -24,11 +24,13 @@ const form = useForm<{
   name: string
   email: string
   password: string
+  student_number?: string
   roles: string[]
 }>({
   name: user.name,
   email: user.email,
   password: "",
+  student_number: user.student_number ?? undefined,
   roles: user.roles.map(role => role.name),
 })
 
@@ -64,7 +66,10 @@ const submit = () => {
           />
           <FormMessage>{{ form.errors.email }}</FormMessage>
         </div>
-
+        <div>
+          <Input v-model="form.student_number" placeholder="Student number" />
+          <FormMessage>{{ form.errors.student_number }}</FormMessage>
+        </div>
         <div>
           <Input
             v-model="form.password"

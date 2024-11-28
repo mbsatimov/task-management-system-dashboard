@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\GroupDestroyAction;
-use App\Actions\GroupGetPaginatedWithUsersAction;
-use App\Actions\GroupGetWithUsersAction;
-use App\Actions\GroupStoreAction;
-use App\Actions\GroupUpdateAction;
-use App\Actions\UserGetPaginatedWithRolesAction;
+use App\Actions\Group\GroupDestroyAction;
+use App\Actions\Group\GroupGetPaginatedWithUsersAction;
+use App\Actions\Group\GroupGetWithUsersAction;
+use App\Actions\Group\GroupStoreAction;
+use App\Actions\Group\GroupUpdateAction;
+use App\Actions\User\UserGetPaginatedWithRolesAction;
 use App\Http\Requests\GroupPostRequest;
 use App\Http\Requests\GroupPutRequest;
 use App\Models\Group;

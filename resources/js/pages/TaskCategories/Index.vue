@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import type { Permission } from "@/types/models/permission"
+import type { TaskCategory } from "@/types/models/taskCategory"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input"
 import { debounce } from "lodash"
 
 const props = defineProps<{
-  permissions: Permission[]
+  taskCategories: TaskCategory[]
   searchTerm: string | null
 }>()
 
@@ -36,13 +36,17 @@ const search = ref(props.searchTerm || "")
 watch(search, value =>
   debounce(
     () =>
-      router.get("/permissions", { search: value }, { preserveState: true }),
+      router.get(
+        "/task-categories",
+        { search: value },
+        { preserveState: true }
+      ),
     500
   )()
 )
 
 const onDelete = (id: number) => {
-  router.delete(`/permissions/${id}`)
+  router.delete(`/task-categories/${id}`)
 }
 
 const page = usePage<{
@@ -56,7 +60,7 @@ if (message.value) {
 
 <template>
   <div>
-    <h1 class="py-4 text-2xl font-bold">Permissions</h1>
+    <h1 class="py-4 text-2xl font-bold">TaskCategorys</h1>
     <div class="mb-4 flex justify-between gap-4">
       <Input
         v-model="search"
@@ -65,7 +69,7 @@ if (message.value) {
         type="text"
       />
       <Button as-child>
-        <Link href="/permissions/create">Create new Permission</Link>
+        <Link href="/task-categories/create">Create new TaskCategory</Link>
       </Button>
     </div>
     <Table>
@@ -78,14 +82,14 @@ if (message.value) {
       </TableHeader>
       <TableBody>
         <TableRow
-          v-for="(permission, index) in permissions"
-          :key="permission.id"
+          v-for="(taskCategory, index) in taskCategories"
+          :key="taskCategory.id"
         >
           <TableCell>{{ index + 1 }}</TableCell>
-          <TableCell class="w-1/2">{{ permission.name }}</TableCell>
+          <TableCell class="w-1/2">{{ taskCategory.name }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
-              <Link :href="`/permissions/${permission.id}/edit`">
+              <Link :href="`/task-categories/${taskCategory.id}/edit`">
                 <EditIcon />
               </Link>
             </Button>
@@ -105,7 +109,7 @@ if (message.value) {
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <Button as-child size="sm" variant="destructive">
-                    <AlertDialogAction @click="onDelete(permission.id)">
+                    <AlertDialogAction @click="onDelete(taskCategory.id)">
                       Delete
                     </AlertDialogAction>
                   </Button>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\AuthLoginAction;
-use App\Actions\AuthRegisterAction;
+use App\Actions\Auth\AuthLoginAction;
+use App\Actions\Auth\AuthRegisterAction;
 use App\Http\Requests\LoginPostRequest;
 use App\Http\Requests\RegisterPostRequest;
 use Illuminate\Http\RedirectResponse;
@@ -54,4 +54,3 @@ class AuthController extends Controller
         return redirect('/login');
     }
 }
-

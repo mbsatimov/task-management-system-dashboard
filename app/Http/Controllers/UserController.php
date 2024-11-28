@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\RoleGetAllAction;
-use App\Actions\UserDestroyAction;
-use App\Actions\UserGetPaginatedWithRolesAction;
-use App\Actions\UserStoreAction;
-use App\Actions\UserUpdateAction;
-use App\Actions\UserWithRolesAction;
+use App\Actions\Role\RoleGetAllAction;
+use App\Actions\User\UserDestroyAction;
+use App\Actions\User\UserGetPaginatedWithRolesAction;
+use App\Actions\User\UserStoreAction;
+use App\Actions\User\UserUpdateAction;
+use App\Actions\User\UserWithRolesAction;
 use App\Http\Requests\UserPostRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Models\User;

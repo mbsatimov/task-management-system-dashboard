@@ -1,12 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { NavItem } from "@/types/nav"
 import SidebarContentMenuItem from "./SidebarContentMenuItem.vue"
 import {
-  LayoutListIcon,
   BoxesIcon,
-  UserRoundCheckIcon,
-  UsersIcon,
+  ComponentIcon,
+  LayoutListIcon,
   UserCogIcon,
+  UsersIcon,
 } from "lucide-vue-next"
 
 const items: NavItem[] = [
@@ -14,6 +14,11 @@ const items: NavItem[] = [
     title: "Tasks",
     href: "/tasks",
     icon: LayoutListIcon,
+  },
+  {
+    title: "Task Categories",
+    href: "/task-categories",
+    icon: ComponentIcon,
   },
   {
     title: "Groups",

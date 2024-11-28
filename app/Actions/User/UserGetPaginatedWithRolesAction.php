@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\User;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,6 +18,6 @@ class UserGetPaginatedWithRolesAction
                 ->orWhere('email', 'like', "%$search%");
         }
 
-        return $query->with('roles')->paginate(20)->withQueryString();
+        return $query->with(['roles', 'group'])->paginate(20)->withQueryString();
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\User;
 
 use App\Models\User;
 
-class UserWithRolesAction
+class UserDestroyAction
 {
     public function __invoke(User $user): User
     {
-        $user->load('roles');
+        $user->delete();
         return $user;
     }
 }

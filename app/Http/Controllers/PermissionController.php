@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\PermissionDestroyAction;
-use App\Actions\PermissionGetPaginatedAction;
-use App\Actions\PermissionStoreAction;
-use App\Actions\PermissionUpdateAction;
+use App\Actions\Permission\PermissionDestroyAction;
+use App\Actions\Permission\PermissionGetAllAction;
+use App\Actions\Permission\PermissionStoreAction;
+use App\Actions\Permission\PermissionUpdateAction;
 use App\Http\Requests\PermissionPostRequest;
 use App\Http\Requests\PermissionPutRequest;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +16,7 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    public function index(Request $request, PermissionGetPaginatedAction $permissionGetAllAction): Response
+    public function index(Request $request, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $permissions = $permissionGetAllAction($request);
         return Inertia::render('Permissions/Index', [

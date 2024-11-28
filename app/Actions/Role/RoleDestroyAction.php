@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Role;
 
 use Spatie\Permission\Models\Role;
 
-class RoleGetWithPermissionsAction
+class RoleDestroyAction
 {
     public function __invoke(Role $role): Role
     {
-        $role->load('permissions');
+        $role->delete();
         return $role;
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Permission;
 
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Spatie\Permission\Models\Permission;
 
-class PermissionGetPaginatedAction
+class PermissionGetAllAction
 {
-    public function __invoke(Request $request): LengthAwarePaginator
+    public function __invoke(Request $request): Collection
     {
         $query = Permission::query();
 
@@ -17,6 +17,6 @@ class PermissionGetPaginatedAction
             $query->where('name', 'like', "%$search%");
         }
 
-        return $query->paginate(20)->withQueryString();
+        return $query->get();
     }
 }

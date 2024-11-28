@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Role;
 
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Models\Role;
 
-class RoleGetAllAction
+class RoleGetAllWithPermissionsAction
 {
     public function __invoke(): Collection
     {
-        return Role::get();
+        return Role::with('permissions')->get();
     }
 }

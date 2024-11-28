@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Auth;
 
 use App\Http\Requests\RegisterPostRequest;
 use App\Models\User;
@@ -21,5 +21,3 @@ class AuthRegisterAction
 
     }
 }
-
-

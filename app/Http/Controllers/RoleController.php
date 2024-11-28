@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\PermissionGetPaginatedAction;
-use App\Actions\RoleDestroyAction;
-use App\Actions\RoleGetAllWithPermissionsAction;
-use App\Actions\RoleGetWithPermissionsAction;
-use App\Actions\RoleStoreAction;
-use App\Actions\RoleUpdateAction;
+use App\Actions\Permission\TaskCategoryGetAllAction;
+use App\Actions\Role\RoleDestroyAction;
+use App\Actions\Role\RoleGetAllWithPermissionsAction;
+use App\Actions\Role\RoleGetWithPermissionsAction;
+use App\Actions\Role\RoleStoreAction;
+use App\Actions\Role\RoleUpdateAction;
 use App\Http\Requests\RolePostRequest;
 use App\Http\Requests\RolePutRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -35,20 +36,20 @@ class RoleController extends Controller
         return redirect('roles')->with(['message' => 'Role created successfully!']);
     }
 
-    public function create(PermissionGetPaginatedAction $permissionGetAllAction): Response
+    public function create(Request $request, TaskCategoryGetAllAction $permissionGetAllAction): Response
     {
-        $permissions = $permissionGetAllAction();
+        $permissions = $permissionGetAllAction($request);
 
         return Inertia::render('Roles/Create', [
             'permissions' => $permissions
         ]);
     }
 
-    public function edit(Role $role, RoleGetWithPermissionsAction $roleGetWithPermissionAction, PermissionGetPaginatedAction $permissionGetAllAction): Response
+    public function edit(Request $request, Role $role, RoleGetWithPermissionsAction $roleGetWithPermissionAction, TaskCategoryGetAllAction $permissionGetAllAction): Response
     {
         $role = $roleGetWithPermissionAction($role);
 
-        $permissions = $permissionGetAllAction();
+        $permissions = $permissionGetAllAction($request);
 
         return Inertia::render('Roles/Edit', [
             'role' => $role,

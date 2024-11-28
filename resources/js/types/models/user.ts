@@ -7,6 +7,7 @@ export interface User {
   email: string
   roles: Role[]
   group: Group | null
+  student_number: string | null
   created_at: string
   updated_at: string
 }

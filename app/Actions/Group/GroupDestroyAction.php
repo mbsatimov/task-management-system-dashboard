@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Group;
 
 use App\Models\Group;
 
-class GroupGetWithUsersAction
+class GroupDestroyAction
 {
     public function __invoke(Group $group): Group
     {
-        $group->load('users');
+        $group->delete();
         return $group;
     }
 }

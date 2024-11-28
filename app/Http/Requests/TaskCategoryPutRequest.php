@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserPostRequest extends FormRequest
+class TaskCategoryPutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,16 +18,18 @@ class UserPostRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:3', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'roles' => ['required'],
-            'student_number' => ['nullable', 'string', 'min:1', 'max:255'],
-            'password' => ['required', 'min:8', 'max:20'],
+            'name' => [
+                'required',
+                'string',
+                'unique:task_categories,name,' . $this->task_category->id,
+                'min:3',
+                'max:255'
+            ],
         ];
     }
 }

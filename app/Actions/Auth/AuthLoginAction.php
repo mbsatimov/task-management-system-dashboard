@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Auth;
 
 use App\Http\Requests\LoginPostRequest;
 
@@ -12,5 +12,3 @@ class AuthLoginAction
 
     }
 }
-
-

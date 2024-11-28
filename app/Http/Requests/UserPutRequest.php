@@ -25,9 +25,8 @@ class UserPutRequest extends FormRequest
         return [
             'name' => ['required', 'min:3', 'max:255'],
             'roles' => ['required'],
+            'student_number' => ['nullable', 'string', 'min:1', 'max:255'],
             'password' => ['nullable', 'min:8', 'max:20'],
         ];
     }
 }
-
-
