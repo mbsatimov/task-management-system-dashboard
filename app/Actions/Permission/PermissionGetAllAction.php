@@ -8,6 +8,10 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionGetAllAction
 {
+    /**
+     * @param Request $request
+     * @return Collection
+     */
     public function __invoke(Request $request): Collection
     {
         $query = Permission::query();

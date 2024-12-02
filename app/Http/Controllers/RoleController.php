@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Permission\TaskCategoryGetAllAction;
+use App\Actions\Permission\PermissionGetAllAction;
 use App\Actions\Role\RoleDestroyAction;
 use App\Actions\Role\RoleGetAllWithPermissionsAction;
 use App\Actions\Role\RoleGetWithPermissionsAction;
@@ -36,7 +36,7 @@ class RoleController extends Controller
         return redirect('roles')->with(['message' => 'Role created successfully!']);
     }
 
-    public function create(Request $request, TaskCategoryGetAllAction $permissionGetAllAction): Response
+    public function create(Request $request, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $permissions = $permissionGetAllAction($request);
 
@@ -45,7 +45,7 @@ class RoleController extends Controller
         ]);
     }
 
-    public function edit(Request $request, Role $role, RoleGetWithPermissionsAction $roleGetWithPermissionAction, TaskCategoryGetAllAction $permissionGetAllAction): Response
+    public function edit(Request $request, Role $role, RoleGetWithPermissionsAction $roleGetWithPermissionAction, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $role = $roleGetWithPermissionAction($role);
 

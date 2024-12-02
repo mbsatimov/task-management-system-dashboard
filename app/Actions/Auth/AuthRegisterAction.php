@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthRegisterAction
 {
+    /**
+     * @param RegisterPostRequest $request
+     * @return void
+     */
     public function __invoke(RegisterPostRequest $request): void
     {
         $user = User::create([

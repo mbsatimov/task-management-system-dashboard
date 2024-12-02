@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Actions\User;
+namespace App\Actions\Task;
 
-use App\Models\User;
+use App\Models\Task;
 use Illuminate\Support\Facades\Hash;
 
-class UserUpdateAction
+class TaskUpdateAction
 {
     /**
-     * @param User $user
+     * @param Task $task
      * @param array $data
      * @return void
      */
-    public function __invoke(User $user, array $data): void
+    public function __invoke(Task $task, array $data): void
     {
         if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
@@ -20,7 +20,7 @@ class UserUpdateAction
             unset($data['password']);
         }
 
-        $user->update($data);
-        $user->syncRoles($data['roles']);
+        $task->update($data);
+        $task->users()->sync($data['user_ids']);
     }
 }

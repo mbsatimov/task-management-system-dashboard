@@ -6,6 +6,10 @@ use App\Models\User;
 
 class UserStoreAction
 {
+    /**
+     * @param array $data
+     * @return void
+     */
     public function __invoke(array $data): void
     {
         $user = User::create($data);

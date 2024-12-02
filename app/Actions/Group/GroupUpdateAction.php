@@ -7,7 +7,10 @@ use App\Models\User;
 
 class GroupUpdateAction
 {
-
+    /**
+     * @param Group $group
+     * @param array $data
+     */
     public function __invoke(Group $group, array $data): void
     {
         $group->update($data);

@@ -8,6 +8,10 @@ use Illuminate\Support\Collection;
 
 class TaskCategoryGetAllAction
 {
+    /**
+     * @param Request $request
+     * @return Collection
+     */
     public function __invoke(Request $request): Collection
     {
         $query = TaskCategory::query();

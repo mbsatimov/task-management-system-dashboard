@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Actions\Role\RoleGetAllAction;
 use App\Actions\User\UserDestroyAction;
 use App\Actions\User\UserGetPaginatedWithRolesAction;
+use App\Actions\User\UserGetWithRolesAction;
 use App\Actions\User\UserStoreAction;
 use App\Actions\User\UserUpdateAction;
-use App\Actions\User\UserWithRolesAction;
 use App\Http\Requests\UserPostRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Models\User;
@@ -45,7 +45,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit(User $user, UserWithRolesAction $userWithRolesAction, RoleGetAllAction $roleGetAllAction): Response
+    public function edit(User $user, UserGetWithRolesAction $userWithRolesAction, RoleGetAllAction $roleGetAllAction): Response
     {
         $user = $userWithRolesAction($user);
         $roles = $roleGetAllAction();

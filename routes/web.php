@@ -5,6 +5,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskCategoryController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,9 +19,7 @@ Route::group(['middleware' => ['role:super-admin|admin']], function () {
 });
 
 Route::group(['middleware' => ['role:super-admin|admin|mentor']], function () {
-    Route::get('/tasks', function () {
-        return Inertia::render("Tasks");
-    });
+    Route::resource('tasks', TaskController::class);
 });
 
 Route::group(['middleware' => ['auth']], function () {

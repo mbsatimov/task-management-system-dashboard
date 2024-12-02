@@ -6,6 +6,11 @@ use Spatie\Permission\Models\Role;
 
 class RoleUpdateAction
 {
+    /**
+     * @param Role $role
+     * @param array $data
+     * @return void
+     */
     public function __invoke(Role $role, array $data): void
     {
         $role->update($data);

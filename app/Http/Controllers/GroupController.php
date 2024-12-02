@@ -7,7 +7,7 @@ use App\Actions\Group\GroupGetPaginatedWithUsersAction;
 use App\Actions\Group\GroupGetWithUsersAction;
 use App\Actions\Group\GroupStoreAction;
 use App\Actions\Group\GroupUpdateAction;
-use App\Actions\User\UserGetPaginatedWithRolesAction;
+use App\Actions\User\TaskGetPaginatedWithRolesAction;
 use App\Http\Requests\GroupPostRequest;
 use App\Http\Requests\GroupPutRequest;
 use App\Models\Group;
@@ -26,7 +26,7 @@ class GroupController
         ]);
     }
 
-    public function create(Request $request, UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
+    public function create(Request $request, TaskGetPaginatedWithRolesAction $userGetPaginatedAction): Response
     {
         $users = $userGetPaginatedAction($request);
 
@@ -44,7 +44,7 @@ class GroupController
         return redirect('groups')->with('message', 'Group created successfully');
     }
 
-    public function edit(Request $request, Group $group, GroupGetWithUsersAction $groupGetWithUsersAction, UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
+    public function edit(Request $request, Group $group, GroupGetWithUsersAction $groupGetWithUsersAction, TaskGetPaginatedWithRolesAction $userGetPaginatedAction): Response
     {
         $group = $groupGetWithUsersAction($group);
         $users = $userGetPaginatedAction($request);

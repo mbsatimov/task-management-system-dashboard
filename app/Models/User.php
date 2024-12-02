@@ -30,6 +30,11 @@ class User extends Authenticatable
         return $this->belongsTo(Group::class);
     }
 
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'task_user');
+    }
+
     protected function casts(): array
     {
         return [

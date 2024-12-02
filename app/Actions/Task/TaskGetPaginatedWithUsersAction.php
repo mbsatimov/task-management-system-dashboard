@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Actions\User;
+namespace App\Actions\Task;
 
-use App\Models\User;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class UserGetPaginatedWithRolesAction
+class TaskGetPaginatedWithUsersAction
 {
     /**
      * @param Request $request
@@ -14,14 +14,13 @@ class UserGetPaginatedWithRolesAction
      */
     public function __invoke(Request $request): LengthAwarePaginator
     {
-        $query = User::query();
+        $query = Task::query();
 
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%");
+            $query->where('title', 'like', "%$search%");
         }
 
-        return $query->with(['roles', 'group'])->paginate(20)->withQueryString();
+        return $query->with('users')->paginate(20)->withQueryString();
     }
 }

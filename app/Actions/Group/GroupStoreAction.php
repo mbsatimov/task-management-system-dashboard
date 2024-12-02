@@ -7,6 +7,10 @@ use App\Models\User;
 
 class GroupStoreAction
 {
+    /**
+     * @param array $data
+     * @return void
+     */
     public function __invoke(array $data): void
     {
         $group = Group::create($data);
