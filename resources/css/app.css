@@ -3,11 +3,18 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+    * {
+        @apply border-border;
+    }
 
-  body {
-    @apply bg-background text-foreground;
-  }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+@layer utilities {
+    .popover-content-width-full {
+        width: var(--radix-popover-trigger-width);
+        max-height: var(--radix-popover-content-available-height);
+    }
 }

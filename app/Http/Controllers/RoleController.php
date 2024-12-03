@@ -18,6 +18,10 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    /**
+     * @param RoleGetAllWithPermissionsAction $roleGetAllWithPermissionsAction
+     * @return Response
+     */
     public function index(RoleGetAllWithPermissionsAction $roleGetAllWithPermissionsAction): Response
     {
         $roles = $roleGetAllWithPermissionsAction();
@@ -27,15 +31,24 @@ class RoleController extends Controller
         ]);
     }
 
+    /**
+     * @param RolePostRequest $request
+     * @param RoleStoreAction $roleStoreAction
+     * @return RedirectResponse
+     */
     public function store(RolePostRequest $request, RoleStoreAction $roleStoreAction): RedirectResponse
     {
         $validated = $request->validated();
-
         $roleStoreAction($validated);
 
         return redirect('roles')->with(['message' => 'Role created successfully!']);
     }
 
+    /**
+     * @param Request $request
+     * @param PermissionGetAllAction $permissionGetAllAction
+     * @return Response
+     */
     public function create(Request $request, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $permissions = $permissionGetAllAction($request);
@@ -45,10 +58,16 @@ class RoleController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Role $role
+     * @param RoleGetWithPermissionsAction $roleGetWithPermissionAction
+     * @param PermissionGetAllAction $permissionGetAllAction
+     * @return Response
+     */
     public function edit(Request $request, Role $role, RoleGetWithPermissionsAction $roleGetWithPermissionAction, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $role = $roleGetWithPermissionAction($role);
-
         $permissions = $permissionGetAllAction($request);
 
         return Inertia::render('Roles/Edit', [
@@ -57,6 +76,12 @@ class RoleController extends Controller
         ]);
     }
 
+    /**
+     * @param RolePutRequest $request
+     * @param Role $role
+     * @param RoleUpdateAction $roleUpdateAction
+     * @return RedirectResponse
+     */
     public function update(RolePutRequest $request, Role $role, RoleUpdateAction $roleUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
@@ -65,6 +90,11 @@ class RoleController extends Controller
         return redirect('roles')->with(['message' => 'Role updated successfully!']);
     }
 
+    /**
+     * @param Role $role
+     * @param RoleDestroyAction $roleDestroyAction
+     * @return RedirectResponse
+     */
     public function destroy(Role $role, RoleDestroyAction $roleDestroyAction): RedirectResponse
     {
         $roleDestroyAction($role);

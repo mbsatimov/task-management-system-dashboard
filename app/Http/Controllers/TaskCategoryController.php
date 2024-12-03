@@ -16,29 +16,46 @@ use Inertia\Response;
 
 class TaskCategoryController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
+     * @return Response
+     */
     public function index(Request $request, TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
     {
         $taskCategories = $taskCategoryGetAllAction($request);
+
         return Inertia::render('TaskCategories/Index', [
             'taskCategories' => $taskCategories,
             'searchTerm' => $request->search
         ]);
     }
 
+    /**
+     * @param TaskCategoryPostRequest $request
+     * @param TaskCategoryStoreAction $taskCategoryStoreAction
+     * @return RedirectResponse
+     */
     public function store(TaskCategoryPostRequest $request, TaskCategoryStoreAction $taskCategoryStoreAction): RedirectResponse
     {
         $validated = $request->validated();
-
         $taskCategoryStoreAction($validated);
 
         return redirect('task-categories')->with('message', 'Task category created successfully');
     }
 
+    /**
+     * @return Response
+     */
     public function create(): Response
     {
         return Inertia::render('TaskCategories/Create');
     }
 
+    /**
+     * @param TaskCategory $taskCategory
+     * @return Response
+     */
     public function edit(TaskCategory $taskCategory): Response
     {
         return Inertia::render('TaskCategories/Edit', [
@@ -46,18 +63,29 @@ class TaskCategoryController extends Controller
         ]);
     }
 
+    /**
+     * @param TaskCategoryPutRequest $request
+     * @param TaskCategory $taskCategory
+     * @param TaskCategoryUpdateAction $taskCategoryUpdateAction
+     * @return RedirectResponse
+     */
     public function update(TaskCategoryPutRequest $request, TaskCategory $taskCategory, TaskCategoryUpdateAction $taskCategoryUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
-
         $taskCategoryUpdateAction($taskCategory, $validated);
 
         return redirect('task-categories')->with('message', 'Task category updated successfully');
     }
 
+    /**
+     * @param TaskCategory $taskCategory
+     * @param TaskCategoryDestroyAction $taskCategoryDestroyAction
+     * @return RedirectResponse
+     */
     public function destroy(TaskCategory $taskCategory, TaskCategoryDestroyAction $taskCategoryDestroyAction): RedirectResponse
     {
         $taskCategoryDestroyAction($taskCategory);
+
         return redirect('task-categories')->with('message', 'Task category deleted successfully');
     }
 }

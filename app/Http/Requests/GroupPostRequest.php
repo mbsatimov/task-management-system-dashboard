@@ -29,7 +29,7 @@ class GroupPostRequest extends FormRequest
                 'max:255',
                 'unique:groups,name'
             ],
-            'userIds' => ['required', 'array'],
+            'user_ids' => ['required', 'array'],
         ];
     }
 }

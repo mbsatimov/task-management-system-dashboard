@@ -29,8 +29,8 @@ class GroupPutRequest extends FormRequest
                 'max:255',
                 'unique:groups,name,' . $this->group->id
             ],
-            'userIds' => ['required', 'array'],
-            'userIds.*' => ['exists:users,id'],
+            'user_ids' => ['required', 'array'],
+            'user_ids.*' => ['exists:users,id'],
         ];
     }
 }

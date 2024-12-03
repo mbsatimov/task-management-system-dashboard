@@ -76,8 +76,8 @@ const submit = () => {
         </CardHeader>
         <CardContent>
           <div>
-            <Input v-model="form.name" name="name" placeholder="Name" />
-            <FormMessage>{{ form.errors.name }}</FormMessage>
+            <Input v-model="form.title" name="name" placeholder="Name" />
+            <FormMessage>{{ form.errors.title }}</FormMessage>
           </div>
           <div class="mt-4">
             <h2 class="mb-2 text-lg font-semibold">Users</h2>

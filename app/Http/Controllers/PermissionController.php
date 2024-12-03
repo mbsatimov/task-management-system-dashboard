@@ -16,29 +16,46 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param PermissionGetAllAction $permissionGetAllAction
+     * @return Response
+     */
     public function index(Request $request, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $permissions = $permissionGetAllAction($request);
+
         return Inertia::render('Permissions/Index', [
             'permissions' => $permissions,
             'searchTerm' => $request->search
         ]);
     }
 
+    /**
+     * @param PermissionPostRequest $request
+     * @param PermissionStoreAction $permissionStoreAction
+     * @return RedirectResponse
+     */
     public function store(PermissionPostRequest $request, PermissionStoreAction $permissionStoreAction): RedirectResponse
     {
         $validated = $request->validated();
-
         $permissionStoreAction($validated);
 
         return redirect('permissions')->with('message', 'Permission created successfully');
     }
 
+    /**
+     * @return Response
+     */
     public function create(): Response
     {
         return Inertia::render('Permissions/Create');
     }
 
+    /**
+     * @param Permission $permission
+     * @return Response
+     */
     public function edit(Permission $permission): Response
     {
         return Inertia::render('Permissions/Edit', [
@@ -46,18 +63,29 @@ class PermissionController extends Controller
         ]);
     }
 
+    /**
+     * @param PermissionPutRequest $request
+     * @param Permission $permission
+     * @param PermissionUpdateAction $permissionUpdateAction
+     * @return RedirectResponse
+     */
     public function update(PermissionPutRequest $request, Permission $permission, PermissionUpdateAction $permissionUpdateAction): RedirectResponse
     {
         $validated = $request->validated();
-
         $permissionUpdateAction($permission, $validated);
 
         return redirect('permissions')->with('message', 'Permission updated successfully');
     }
 
+    /**
+     * @param Permission $permission
+     * @param PermissionDestroyAction $permissionDestroyAction
+     * @return RedirectResponse
+     */
     public function destroy(Permission $permission, PermissionDestroyAction $permissionDestroyAction): RedirectResponse
     {
         $permissionDestroyAction($permission);
+
         return redirect('permissions')->with('message', 'Permission deleted successfully');
     }
 }

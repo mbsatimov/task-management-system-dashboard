@@ -23,7 +23,7 @@ class TaskPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:1', 'max:255'],
+            'title' => ['required', 'string', 'min:1', 'max:255'],
             'description' => ['required', 'string', 'min:1', 'max:1000'],
             'video' => ['required', 'url', 'max:1000'],
             'task_category_id' => ['required', 'integer', 'exists:task_categories,id'],
