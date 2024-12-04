@@ -55,9 +55,6 @@ if (message.value) {
           <TableHead>#</TableHead>
           <TableHead>Title</TableHead>
           <TableHead>Category</TableHead>
-          <TableHead>Progress</TableHead>
-          <TableHead>Created By</TableHead>
-          <TableHead>Updated By</TableHead>
           <TableHead class="text-end">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -66,9 +63,6 @@ if (message.value) {
           <TableCell>{{ index + 1 }}</TableCell>
           <TableCell>{{ task.title }}</TableCell>
           <TableCell>{{ task.category.name }}</TableCell>
-          <TableCell>{{ task.progress }}</TableCell>
-          <TableCell>{{ task.created_by.name }}</TableCell>
-          <TableCell>{{ task.updated_by.name }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
               <Link :href="`/tasks/${task.id}/edit`">

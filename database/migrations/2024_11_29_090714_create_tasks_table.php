@@ -15,10 +15,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description');
             $table->string('video');
-            $table->foreignId('category')->constrained('task_categories')->cascadeOnDelete();
-            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete();
-            $table->integer('progress')->default(0);
+            $table->foreignId('category_id')->constrained("task_categories")->cascadeOnDelete();
             $table->timestamps();
         });
     }

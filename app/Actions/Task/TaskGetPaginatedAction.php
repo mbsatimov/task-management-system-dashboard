@@ -6,7 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class TaskGetPaginatedWithUsersAction
+class TaskGetPaginatedAction
 {
     /**
      * @param Request $request
@@ -21,6 +21,6 @@ class TaskGetPaginatedWithUsersAction
             $query->where('title', 'like', "%$search%");
         }
 
-        return $query->with('users')->paginate(20)->withQueryString();
+        return $query->with(['category'])->paginate(20)->withQueryString();
     }
 }

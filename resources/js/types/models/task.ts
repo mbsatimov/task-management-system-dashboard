@@ -7,7 +7,6 @@ export interface Task {
   description: string
   video: string
   category: TaskCategory
-  progress: number
   created_by: User
   updated_by: User
 }

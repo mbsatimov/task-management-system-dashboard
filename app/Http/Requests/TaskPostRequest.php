@@ -26,9 +26,7 @@ class TaskPostRequest extends FormRequest
             'title' => ['required', 'string', 'min:1', 'max:255'],
             'description' => ['required', 'string', 'min:1', 'max:1000'],
             'video' => ['required', 'url', 'max:1000'],
-            'task_category_id' => ['required', 'integer', 'exists:task_categories,id'],
-            'created_by_id' => ['required', 'integer', 'exists:users,id'],
-            'updated_by_id' => ['required', 'integer', 'exists:users,id'],
+            'category_id' => ['required', 'integer', 'exists:task_categories,id'],
         ];
     }
 }

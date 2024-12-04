@@ -12,7 +12,6 @@ class TaskStoreAction
      */
     public function __invoke(array $data): void
     {
-        $task = Task::create($data);
-        $task->users()->sync($data['user_ids']);
+        Task::create($data);
     }
 }

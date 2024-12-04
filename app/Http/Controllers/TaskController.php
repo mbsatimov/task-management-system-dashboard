@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Task\TaskDestroyAction;
-use App\Actions\Task\TaskGetPaginatedWithUsersAction;
+use App\Actions\Task\TaskGetPaginatedAction;
+use App\Actions\Task\TaskGetWithTaskCategoryAction;
 use App\Actions\Task\TaskStoreAction;
 use App\Actions\Task\TaskUpdateAction;
 use App\Actions\TaskCategory\TaskCategoryGetAllAction;
-use App\Actions\User\UserGetPaginatedWithRolesAction;
 use App\Http\Requests\TaskPostRequest;
 use App\Http\Requests\TaskPutRequest;
 use App\Models\Task;
@@ -20,12 +20,12 @@ class TaskController extends Controller
 {
     /**
      * @param Request $request
-     * @param TaskGetPaginatedWithUsersAction $taskGetPaginatedWithUsersAction
+     * @param TaskGetPaginatedAction $taskGetPaginatedAction
      * @return Response
      */
-    public function index(Request $request, TaskGetPaginatedWithUsersAction $taskGetPaginatedWithUsersAction): Response
+    public function index(Request $request, TaskGetPaginatedAction $taskGetPaginatedAction): Response
     {
-        $tasks = $taskGetPaginatedWithUsersAction($request);
+        $tasks = $taskGetPaginatedAction($request);
 
         return Inertia::render('Tasks/Index', [
             'tasks' => $tasks,
@@ -48,17 +48,14 @@ class TaskController extends Controller
 
     /**
      * @param Request $request
-     * @param UserGetPaginatedWithRolesAction $userGetAllAction
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
      */
-    public function create(Request $request, UserGetPaginatedWithRolesAction $userGetAllAction, TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
+    public function create(Request $request, TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
     {
-        $users = $userGetAllAction($request);
         $categories = $taskCategoryGetAllAction($request);
 
         return Inertia::render('Tasks/Create', [
-            'users' => $users,
             'categories' => $categories
         ]);
     }
@@ -66,16 +63,18 @@ class TaskController extends Controller
     /**
      * @param Request $request
      * @param Task $task
-     * @param UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction
+     * @param TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction
+     * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
      */
-    public function edit(Request $request, Task $task, UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction): Response
+    public function edit(Request $request, Task $task, TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction, TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
     {
-        $users = $userGetPaginatedWithRolesAction($request);
+        $task = $taskGetWithTaskCategoryAction($task);
+        $categories = $taskCategoryGetAllAction($request);
 
         return Inertia::render('Tasks/Edit', [
             'task' => $task,
-            'users' => $users
+            'categories' => $categories
         ]);
     }
 
