@@ -36,8 +36,10 @@ class PermissionController extends Controller
      * @param PermissionStoreAction $permissionStoreAction
      * @return RedirectResponse
      */
-    public function store(PermissionPostRequest $request, PermissionStoreAction $permissionStoreAction): RedirectResponse
-    {
+    public function store(
+        PermissionPostRequest $request,
+        PermissionStoreAction $permissionStoreAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $permissionStoreAction($validated);
 
@@ -69,8 +71,11 @@ class PermissionController extends Controller
      * @param PermissionUpdateAction $permissionUpdateAction
      * @return RedirectResponse
      */
-    public function update(PermissionPutRequest $request, Permission $permission, PermissionUpdateAction $permissionUpdateAction): RedirectResponse
-    {
+    public function update(
+        PermissionPutRequest $request,
+        Permission $permission,
+        PermissionUpdateAction $permissionUpdateAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $permissionUpdateAction($permission, $validated);
 
@@ -82,8 +87,10 @@ class PermissionController extends Controller
      * @param PermissionDestroyAction $permissionDestroyAction
      * @return RedirectResponse
      */
-    public function destroy(Permission $permission, PermissionDestroyAction $permissionDestroyAction): RedirectResponse
-    {
+    public function destroy(
+        Permission $permission,
+        PermissionDestroyAction $permissionDestroyAction
+    ): RedirectResponse {
         $permissionDestroyAction($permission);
 
         return redirect('permissions')->with('message', 'Permission deleted successfully');

@@ -21,13 +21,26 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { toast } from "vue-sonner"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import { Task } from "@/types/models/task"
 import { Pagination } from "@/types/pagination"
+import { debounce } from "lodash"
+import { Input } from "@/components/ui/input"
+import PaginationLinks from "@/components/PaginationLinks.vue"
 
-defineProps<{
+const props = defineProps<{
   tasks: Pagination<Task>
+  searchTerm: string | null
 }>()
+
+const search = ref(props.searchTerm || "")
+
+watch(search, value =>
+  debounce(
+    () => router.get("/tasks", { search: value }, { preserveState: true }),
+    500
+  )()
+)
 
 const onDelete = (id: number) => {
   router.delete(`/tasks/${id}`)
@@ -43,8 +56,14 @@ if (message.value) {
 </script>
 <template>
   <div>
-    <h1 class="py-4 text-2xl font-bold">tasks</h1>
-    <div class="mb-4 flex justify-end">
+    <h1 class="py-4 text-2xl font-bold">Tasks</h1>
+    <div class="mb-4 flex justify-between gap-4">
+      <Input
+        v-model="search"
+        class="max-w-md"
+        placeholder="Search..."
+        type="text"
+      />
       <Button as-child>
         <Link href="/tasks/create">Create new Task</Link>
       </Button>
@@ -96,5 +115,6 @@ if (message.value) {
         </TableRow>
       </TableBody>
     </Table>
+    <PaginationLinks :paginator="tasks" class="mt-4" />
   </div>
 </template>

@@ -19,6 +19,9 @@ class TaskCategory extends Model
         'name',
     ];
 
+    /**
+     * @return HasMany
+     */
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);

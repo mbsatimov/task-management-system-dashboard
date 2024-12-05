@@ -36,8 +36,10 @@ class TaskCategoryController extends Controller
      * @param TaskCategoryStoreAction $taskCategoryStoreAction
      * @return RedirectResponse
      */
-    public function store(TaskCategoryPostRequest $request, TaskCategoryStoreAction $taskCategoryStoreAction): RedirectResponse
-    {
+    public function store(
+        TaskCategoryPostRequest $request,
+        TaskCategoryStoreAction $taskCategoryStoreAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $taskCategoryStoreAction($validated);
 
@@ -69,8 +71,11 @@ class TaskCategoryController extends Controller
      * @param TaskCategoryUpdateAction $taskCategoryUpdateAction
      * @return RedirectResponse
      */
-    public function update(TaskCategoryPutRequest $request, TaskCategory $taskCategory, TaskCategoryUpdateAction $taskCategoryUpdateAction): RedirectResponse
-    {
+    public function update(
+        TaskCategoryPutRequest $request,
+        TaskCategory $taskCategory,
+        TaskCategoryUpdateAction $taskCategoryUpdateAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $taskCategoryUpdateAction($taskCategory, $validated);
 
@@ -82,8 +87,10 @@ class TaskCategoryController extends Controller
      * @param TaskCategoryDestroyAction $taskCategoryDestroyAction
      * @return RedirectResponse
      */
-    public function destroy(TaskCategory $taskCategory, TaskCategoryDestroyAction $taskCategoryDestroyAction): RedirectResponse
-    {
+    public function destroy(
+        TaskCategory $taskCategory,
+        TaskCategoryDestroyAction $taskCategoryDestroyAction
+    ): RedirectResponse {
         $taskCategoryDestroyAction($taskCategory);
 
         return redirect('task-categories')->with('message', 'Task category deleted successfully');

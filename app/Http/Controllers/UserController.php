@@ -23,8 +23,10 @@ class UserController extends Controller
      * @param UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction
      * @return Response
      */
-    public function index(Request $request, UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction): Response
-    {
+    public function index(
+        Request $request,
+        UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction
+    ): Response {
         $users = $userGetPaginatedWithRolesAction($request);
 
         return Inertia::render('Users/Index', [
@@ -65,8 +67,11 @@ class UserController extends Controller
      * @param RoleGetAllAction $roleGetAllAction
      * @return Response
      */
-    public function edit(User $user, UserGetWithRolesAction $userWithRolesAction, RoleGetAllAction $roleGetAllAction): Response
-    {
+    public function edit(
+        User $user,
+        UserGetWithRolesAction $userWithRolesAction,
+        RoleGetAllAction $roleGetAllAction
+    ): Response {
         $user = $userWithRolesAction($user);
         $roles = $roleGetAllAction();
 
@@ -82,8 +87,11 @@ class UserController extends Controller
      * @param UserUpdateAction $userUpdateAction
      * @return RedirectResponse
      */
-    public function update(UserPutRequest $request, User $user, UserUpdateAction $userUpdateAction): RedirectResponse
-    {
+    public function update(
+        UserPutRequest $request,
+        User $user,
+        UserUpdateAction $userUpdateAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $userUpdateAction($user, $validated);
 

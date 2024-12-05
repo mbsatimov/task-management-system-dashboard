@@ -58,7 +58,7 @@ if (message.value) {
 
 <template>
   <div>
-    <h1 class="py-4 text-2xl font-bold">Roles</h1>
+    <h1 class="py-4 text-2xl font-bold">Users</h1>
     <div class="mb-4 flex justify-between gap-4">
       <Input
         v-model="search"

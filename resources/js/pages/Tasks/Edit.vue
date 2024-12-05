@@ -59,12 +59,12 @@ const submit = () => {
         <div class="space-y-1">
           <Label>Description</Label>
           <Textarea v-model="form.description" placeholder="Description" />
-          <FormMessage>{{ form.errors.title }}</FormMessage>
+          <FormMessage>{{ form.errors.description }}</FormMessage>
         </div>
         <div class="space-y-1">
           <Label>Video Url</Label>
           <Input v-model="form.video" placeholder="Video url" type="url" />
-          <FormMessage>{{ form.errors.title }}</FormMessage>
+          <FormMessage>{{ form.errors.video }}</FormMessage>
         </div>
         <div class="space-y-1">
           <Label>Category</Label>

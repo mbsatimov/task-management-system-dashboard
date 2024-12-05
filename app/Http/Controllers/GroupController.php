@@ -68,8 +68,12 @@ class GroupController
      * @param UserGetPaginatedWithRolesAction $userGetPaginatedAction
      * @return Response
      */
-    public function edit(Request $request, Group $group, GroupGetWithUsersAction $groupGetWithUsersAction, UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
-    {
+    public function edit(
+        Request $request,
+        Group $group,
+        GroupGetWithUsersAction $groupGetWithUsersAction,
+        UserGetPaginatedWithRolesAction $userGetPaginatedAction
+    ): Response {
         $group = $groupGetWithUsersAction($group);
         $users = $userGetPaginatedAction($request);
 

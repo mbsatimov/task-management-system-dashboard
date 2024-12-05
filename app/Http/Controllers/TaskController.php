@@ -67,8 +67,12 @@ class TaskController extends Controller
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
      */
-    public function edit(Request $request, Task $task, TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction, TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
-    {
+    public function edit(
+        Request $request,
+        Task $task,
+        TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction,
+        TaskCategoryGetAllAction $taskCategoryGetAllAction
+    ): Response {
         $task = $taskGetWithTaskCategoryAction($task);
         $categories = $taskCategoryGetAllAction($request);
 
@@ -84,8 +88,11 @@ class TaskController extends Controller
      * @param TaskUpdateAction $taskUpdateAction
      * @return RedirectResponse
      */
-    public function update(TaskPutRequest $request, Task $task, TaskUpdateAction $taskUpdateAction): RedirectResponse
-    {
+    public function update(
+        TaskPutRequest $request,
+        Task $task,
+        TaskUpdateAction $taskUpdateAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $taskUpdateAction($task, $validated);
 

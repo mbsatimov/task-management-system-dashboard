@@ -65,8 +65,12 @@ class RoleController extends Controller
      * @param PermissionGetAllAction $permissionGetAllAction
      * @return Response
      */
-    public function edit(Request $request, Role $role, RoleGetWithPermissionsAction $roleGetWithPermissionAction, PermissionGetAllAction $permissionGetAllAction): Response
-    {
+    public function edit(
+        Request $request,
+        Role $role,
+        RoleGetWithPermissionsAction $roleGetWithPermissionAction,
+        PermissionGetAllAction $permissionGetAllAction
+    ): Response {
         $role = $roleGetWithPermissionAction($role);
         $permissions = $permissionGetAllAction($request);
 
@@ -82,8 +86,11 @@ class RoleController extends Controller
      * @param RoleUpdateAction $roleUpdateAction
      * @return RedirectResponse
      */
-    public function update(RolePutRequest $request, Role $role, RoleUpdateAction $roleUpdateAction): RedirectResponse
-    {
+    public function update(
+        RolePutRequest $request,
+        Role $role,
+        RoleUpdateAction $roleUpdateAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $roleUpdateAction($role, $validated);
 

@@ -43,7 +43,7 @@ if (message.value) {
 </script>
 <template>
   <div>
-    <h1 class="py-4 text-2xl font-bold">groups</h1>
+    <h1 class="py-4 text-2xl font-bold">Groups</h1>
     <div class="mb-4 flex justify-end">
       <Button as-child>
         <Link href="/groups/create">Create new Group</Link>

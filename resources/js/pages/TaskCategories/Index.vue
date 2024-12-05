@@ -60,7 +60,7 @@ if (message.value) {
 
 <template>
   <div>
-    <h1 class="py-4 text-2xl font-bold">TaskCategorys</h1>
+    <h1 class="py-4 text-2xl font-bold">Task Categories</h1>
     <div class="mb-4 flex justify-between gap-4">
       <Input
         v-model="search"
