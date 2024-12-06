@@ -69,7 +69,7 @@ if (message.value) {
         type="text"
       />
       <Button as-child>
-        <Link href="/task-categories/create">Create new TaskCategory</Link>
+        <Link href="/task-categories/create">Create new Task Category</Link>
       </Button>
     </div>
     <Table>

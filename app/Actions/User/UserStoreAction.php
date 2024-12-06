@@ -14,5 +14,15 @@ class UserStoreAction
     {
         $user = User::create($data);
         $user->syncRoles($data['roles']);
+        if (in_array('student', $data['roles'])) {
+            $user->student()->create([
+                'student_number' => $data['student_number'],
+            ]);
+        }
+        if (in_array('mentor', $data['roles'])) {
+            $user->mentor()->create([
+                'category_id' => $data['category_id'],
+            ]);
+        }
     }
 }

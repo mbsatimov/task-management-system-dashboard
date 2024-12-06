@@ -1,14 +1,7 @@
 <script lang="ts" setup>
 import { router, usePage } from "@inertiajs/vue3"
 import { EditIcon, Trash2Icon } from "lucide-vue-next"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,8 +32,8 @@ const search = ref(props.searchTerm || "")
 watch(search, value =>
   debounce(
     () => router.get("/users", { search: value }, { preserveState: true }),
-    500
-  )()
+    500,
+  )(),
 )
 
 const onDelete = (id: number) => {
@@ -78,6 +71,7 @@ if (message.value) {
           <TableHead>Role</TableHead>
           <TableHead>Group</TableHead>
           <TableHead>Student Number</TableHead>
+          <TableHead>Category</TableHead>
           <TableHead class="text-end">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -90,8 +84,9 @@ if (message.value) {
               {{ role.name }}
             </Badge>
           </TableCell>
-          <TableCell>{{ user.group?.name || "-" }}</TableCell>
-          <TableCell>{{ user.student_number || "-" }}</TableCell>
+          <TableCell>{{ user.student?.group.name || "-" }}</TableCell>
+          <TableCell>{{ user.student?.student_number || "-" }}</TableCell>
+          <TableCell>{{ user.mentor?.category.name || "-" }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
               <Link :href="`/users/${user.id}/edit`">

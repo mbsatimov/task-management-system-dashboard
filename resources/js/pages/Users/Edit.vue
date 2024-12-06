@@ -2,43 +2,44 @@
 import { useForm } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { FormMessage } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
 import type { Role } from "@/types/models/role"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { User } from "@/types/models/user"
+import type { TaskCategory } from "@/types/models/taskCategory"
 
 const { user, roles } = defineProps<{
-  roles: Role[]
   user: User
+  roles: Role[]
+  categories: TaskCategory[]
 }>()
 
-const form = useForm<{
-  name: string
-  email: string
-  password: string
-  student_number?: string
-  roles: string[]
-}>({
+const form = useForm<
+  Partial<{
+    name: string
+    email: string
+    password: string
+    student_number: string
+    category_id: number
+    roles: string[]
+  }>
+>({
   name: user.name,
   email: user.email,
-  password: "",
-  student_number: user.student_number ?? undefined,
+  password: undefined,
+  student_number: user.student?.student_number ?? undefined,
+  category_id: user.mentor?.category.id ?? undefined,
   roles: user.roles.map(role => role.name),
 })
 
 const handleChange = (name: string) => {
-  if (form.roles.includes(name)) {
-    form.roles = form.roles.filter(p => p !== name)
+  if (form.roles?.includes(name)) {
+    form.roles = form.roles?.filter(p => p !== name)
   } else {
-    form.roles.push(name)
+    form.roles?.push(name)
   }
 }
 
@@ -54,11 +55,14 @@ const submit = () => {
     <form @submit.prevent="submit">
       <CardContent class="space-y-6">
         <div>
-          <Input v-model="form.name" name="name" placeholder="Last name" />
+          <Label for="name">Name</Label>
+          <Input id="name" v-model="form.name" name="name" placeholder="Last name" />
           <FormMessage>{{ form.errors.name }}</FormMessage>
         </div>
         <div>
+          <Label for="email">Email</Label>
           <Input
+            id="email"
             v-model="form.email"
             name="email"
             placeholder="Email"
@@ -67,11 +71,9 @@ const submit = () => {
           <FormMessage>{{ form.errors.email }}</FormMessage>
         </div>
         <div>
-          <Input v-model="form.student_number" placeholder="Student number" />
-          <FormMessage>{{ form.errors.student_number }}</FormMessage>
-        </div>
-        <div>
+          <Label for="password">Password</Label>
           <Input
+            id="password"
             v-model="form.password"
             name="password"
             placeholder="Password"
@@ -92,7 +94,7 @@ const submit = () => {
             >
               <Checkbox
                 :id="`role-${role.name}`"
-                :checked="form.roles.includes(role.name)"
+                :checked="form.roles?.includes(role.name)"
                 @update:checked="handleChange(role.name)"
               />
               <Label :for="`role-${role.name}`">
@@ -101,6 +103,35 @@ const submit = () => {
             </div>
           </div>
           <FormMessage>{{ form.errors.roles }}</FormMessage>
+        </div>
+        <div>
+          <Input
+            v-if="form.roles?.includes('student')"
+            v-model="form.student_number"
+            placeholder="Student number"
+          />
+          <FormMessage>{{ form.errors.student_number }}</FormMessage>
+        </div>
+        <div v-if="form.roles?.includes('mentor')" class="space-y-1">
+          <Label>Category</Label>
+          <Select :default-value="String(user.mentor?.category.id)"
+                  @update:modelValue="val => (form.category_id = +val)">
+            <SelectTrigger>
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="String(category.id)"
+                >
+                  {{ category.name }}
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <FormMessage>{{ form.errors.category_id }}</FormMessage>
         </div>
       </CardContent>
       <CardFooter>

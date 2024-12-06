@@ -39,7 +39,6 @@ class UserRolePermissionSeeder extends Seeder
         // Create Roles
         $superAdminRole = Role::create(['name' => 'super-admin']); //as super-admin
         $adminRole = Role::create(['name' => 'admin']);
-        $mentorRole = Role::create(['name' => 'mentor']);
 
         $allPermissionNames = Permission::pluck('name')->toArray();
 
@@ -55,7 +54,6 @@ class UserRolePermissionSeeder extends Seeder
         ], [
             'name' => 'Super Admin',
             'email' => 'superadmin@gmail.com',
-            'group_id' => null,
             'password' => Hash::make('string123'),
         ]);
 
@@ -67,24 +65,9 @@ class UserRolePermissionSeeder extends Seeder
         ], [
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'group_id' => null,
             'password' => Hash::make('string123'),
         ]);
 
         $adminUser->assignRole($adminRole);
-
-
-        $mentorUser = User::firstOrCreate([
-            'email' => 'mentor@gmail.com',
-        ], [
-            'name' => 'Mentor',
-            'email' => 'mentor@gmail.com',
-            'group_id' => null,
-            'password' => Hash::make('string123'),
-        ]);
-
-        $mentorRole->givePermissionTo(['create task', 'view task', 'update task']);
-
-        $mentorUser->assignRole($mentorRole);
     }
 }

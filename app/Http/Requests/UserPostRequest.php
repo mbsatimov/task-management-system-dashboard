@@ -26,7 +26,8 @@ class UserPostRequest extends FormRequest
             'name' => ['required', 'min:3', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'roles' => ['required'],
-            'student_number' => ['nullable', 'string', 'min:1', 'max:255'],
+            'student_number' => ['required_if:roles,student', 'string', 'min:1', 'max:255'],
+            'category_id' => ['required_if:roles,mentor', 'exists:task_categories,id'],
             'password' => ['required', 'min:8', 'max:20'],
         ];
     }

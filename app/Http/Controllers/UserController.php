@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Role\RoleGetAllAction;
+use App\Actions\TaskCategory\TaskCategoryGetAllAction;
 use App\Actions\User\UserDestroyAction;
 use App\Actions\User\UserGetPaginatedWithRolesAction;
 use App\Actions\User\UserGetWithRolesAction;
@@ -24,9 +25,10 @@ class UserController extends Controller
      * @return Response
      */
     public function index(
-        Request $request,
+        Request                         $request,
         UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction
-    ): Response {
+    ): Response
+    {
         $users = $userGetPaginatedWithRolesAction($request);
 
         return Inertia::render('Users/Index', [
@@ -49,35 +51,50 @@ class UserController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param RoleGetAllAction $roleGetAllAction
+     * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
      */
-    public function create(RoleGetAllAction $roleGetAllAction): Response
+    public function create(
+        Request                  $request,
+        RoleGetAllAction         $roleGetAllAction,
+        TaskCategoryGetAllAction $taskCategoryGetAllAction
+    ): Response
     {
         $roles = $roleGetAllAction();
+        $categories = $taskCategoryGetAllAction($request);
 
         return Inertia::render('Users/Create', [
-            'roles' => $roles
+            'roles' => $roles,
+            'categories' => $categories
         ]);
     }
 
     /**
+     * @param Request $request
      * @param User $user
      * @param UserGetWithRolesAction $userWithRolesAction
      * @param RoleGetAllAction $roleGetAllAction
+     * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
      */
     public function edit(
-        User $user,
-        UserGetWithRolesAction $userWithRolesAction,
-        RoleGetAllAction $roleGetAllAction
-    ): Response {
+        Request                  $request,
+        User                     $user,
+        UserGetWithRolesAction   $userWithRolesAction,
+        RoleGetAllAction         $roleGetAllAction,
+        TaskCategoryGetAllAction $taskCategoryGetAllAction,
+    ): Response
+    {
         $user = $userWithRolesAction($user);
         $roles = $roleGetAllAction();
+        $categories = $taskCategoryGetAllAction($request);
 
         return Inertia::render('Users/Edit', [
             'user' => $user,
-            'roles' => $roles
+            'roles' => $roles,
+            'categories' => $categories
         ]);
     }
 
@@ -88,10 +105,11 @@ class UserController extends Controller
      * @return RedirectResponse
      */
     public function update(
-        UserPutRequest $request,
-        User $user,
+        UserPutRequest   $request,
+        User             $user,
         UserUpdateAction $userUpdateAction
-    ): RedirectResponse {
+    ): RedirectResponse
+    {
         $validated = $request->validated();
         $userUpdateAction($user, $validated);
 
