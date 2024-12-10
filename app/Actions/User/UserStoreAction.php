@@ -12,17 +12,15 @@ class UserStoreAction
      */
     public function __invoke(array $data): void
     {
-        $user = User::create($data);
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'details' => json_encode([
+                'student_number' => $data['student_number'] ?? null,
+                'category_id' => $data['category_id'] ?? null,
+            ])
+        ]);
         $user->syncRoles($data['roles']);
-        if (in_array('student', $data['roles'])) {
-            $user->student()->create([
-                'student_number' => $data['student_number'],
-            ]);
-        }
-        if (in_array('mentor', $data['roles'])) {
-            $user->mentor()->create([
-                'category_id' => $data['category_id'],
-            ]);
-        }
     }
 }

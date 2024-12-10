@@ -21,13 +21,6 @@ class UserGetPaginatedWithRolesAction
                 ->orWhere('email', 'like', "%$search%");
         }
 
-        return $query->with([
-            'roles',
-            'group',
-            'student',
-            'student.group',
-            'mentor',
-            'mentor.category'
-        ])->paginate(20)->withQueryString();
+        return $query->select('id', 'name', 'email', 'details->student_number as student_number', 'details->category_id as category_id')->with('roles')->paginate(20)->withQueryString();
     }
 }

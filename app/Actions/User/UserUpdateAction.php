@@ -3,7 +3,6 @@
 namespace App\Actions\User;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class UserUpdateAction
 {
@@ -15,21 +14,18 @@ class UserUpdateAction
     public function __invoke(User $user, array $data): void
     {
         if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
+            $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
         }
-        $user->update($data);
+        $user->update([
+            'name' => $data['name'],
+            'password' => $data['password'] ?? $user->password,
+            'details' => json_encode([
+                'student_number' => $data['student_number'] ?? null,
+                'category_id' => $data['category_id'] ?? null,
+            ])
+        ]);
         $user->syncRoles($data['roles']);
-        if (in_array('student', $data['roles'])) {
-            $user->student()->update([
-                'student_number' => $data['student_number'],
-            ]);
-        }
-        if (in_array('mentor', $data['roles'])) {
-            $user->mentor()->update([
-                'category_id' => $data['category_id'],
-            ]);
-        }
     }
 }

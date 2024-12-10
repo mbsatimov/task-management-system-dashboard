@@ -18,14 +18,15 @@ class UserPutRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
             'name' => ['required', 'min:3', 'max:255'],
             'roles' => ['required'],
-            'student_number' => ['nullable', 'string', 'min:1', 'max:255'],
+            'student_number' => ['required_if:roles,student', 'string', 'min:1', 'max:255'],
+            'category_id' => ['required_if:roles,mentor', 'exists:task_categories,id'],
             'password' => ['nullable', 'min:8', 'max:20'],
         ];
     }

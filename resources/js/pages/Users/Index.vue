@@ -32,8 +32,8 @@ const search = ref(props.searchTerm || "")
 watch(search, value =>
   debounce(
     () => router.get("/users", { search: value }, { preserveState: true }),
-    500,
-  )(),
+    500
+  )()
 )
 
 const onDelete = (id: number) => {
@@ -69,7 +69,6 @@ if (message.value) {
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
-          <TableHead>Group</TableHead>
           <TableHead>Student Number</TableHead>
           <TableHead>Category</TableHead>
           <TableHead class="text-end">Actions</TableHead>
@@ -84,9 +83,8 @@ if (message.value) {
               {{ role.name }}
             </Badge>
           </TableCell>
-          <TableCell>{{ user.student?.group.name || "-" }}</TableCell>
-          <TableCell>{{ user.student?.student_number || "-" }}</TableCell>
-          <TableCell>{{ user.mentor?.category.name || "-" }}</TableCell>
+          <TableCell>{{ user?.student_number || "-" }}</TableCell>
+          <TableCell>{{ user?.category_id || "-" }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
               <Link :href="`/users/${user.id}/edit`">

@@ -27,8 +27,7 @@ class UserController extends Controller
     public function index(
         Request                         $request,
         UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction
-    ): Response
-    {
+    ): Response {
         $users = $userGetPaginatedWithRolesAction($request);
 
         return Inertia::render('Users/Index', [
@@ -60,8 +59,7 @@ class UserController extends Controller
         Request                  $request,
         RoleGetAllAction         $roleGetAllAction,
         TaskCategoryGetAllAction $taskCategoryGetAllAction
-    ): Response
-    {
+    ): Response {
         $roles = $roleGetAllAction();
         $categories = $taskCategoryGetAllAction($request);
 
@@ -85,8 +83,7 @@ class UserController extends Controller
         UserGetWithRolesAction   $userWithRolesAction,
         RoleGetAllAction         $roleGetAllAction,
         TaskCategoryGetAllAction $taskCategoryGetAllAction,
-    ): Response
-    {
+    ): Response {
         $user = $userWithRolesAction($user);
         $roles = $roleGetAllAction();
         $categories = $taskCategoryGetAllAction($request);
@@ -108,8 +105,7 @@ class UserController extends Controller
         UserPutRequest   $request,
         User             $user,
         UserUpdateAction $userUpdateAction
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $validated = $request->validated();
         $userUpdateAction($user, $validated);
 

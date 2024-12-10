@@ -2,24 +2,11 @@
 import { useForm } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { FormMessage } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { Role } from "@/types/models/role"
 import type { TaskCategory } from "@/types/models/taskCategory"
 
@@ -66,7 +53,7 @@ const submit = () => {
     <form @submit.prevent="submit">
       <CardContent class="space-y-6">
         <div>
-          <Input v-model="form.name" name="name" placeholder="Last name" />
+          <Input v-model="form.name" name="name" placeholder="Name" />
           <FormMessage>{{ form.errors.name }}</FormMessage>
         </div>
         <div>

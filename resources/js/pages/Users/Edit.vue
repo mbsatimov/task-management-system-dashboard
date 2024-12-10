@@ -30,8 +30,8 @@ const form = useForm<
   name: user.name,
   email: user.email,
   password: undefined,
-  student_number: user.student?.student_number ?? undefined,
-  category_id: user.mentor?.category.id ?? undefined,
+  student_number: user.student_number ?? undefined,
+  category_id: user.category_id ?? undefined,
   roles: user.roles.map(role => role.name),
 })
 
@@ -114,7 +114,7 @@ const submit = () => {
         </div>
         <div v-if="form.roles?.includes('mentor')" class="space-y-1">
           <Label>Category</Label>
-          <Select :default-value="String(user.mentor?.category.id)"
+          <Select :default-value="String(user.category_id)"
                   @update:modelValue="val => (form.category_id = +val)">
             <SelectTrigger>
               <SelectValue placeholder="Select a category" />
