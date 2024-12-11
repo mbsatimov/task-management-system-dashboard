@@ -10,9 +10,10 @@ class UserGetPaginatedWithRolesAction
 {
     /**
      * @param Request $request
+     * @param string|null $role
      * @return LengthAwarePaginator
      */
-    public function __invoke(Request $request): LengthAwarePaginator
+    public function __invoke(Request $request, ?string $role = null): LengthAwarePaginator
     {
         $query = User::query();
         if ($request->has('search') && $request->search) {
@@ -21,6 +22,12 @@ class UserGetPaginatedWithRolesAction
                 ->orWhere('email', 'like', "%$search%");
         }
 
-        return $query->select('id', 'name', 'email', 'details->student_number as student_number', 'details->category_id as category_id')->with('roles')->paginate(20)->withQueryString();
+        if ($role) {
+            $query->whereHas('roles', function ($query) use ($role) {
+                $query->where('name', $role);
+            });
+        }
+
+        return $query->with(['roles'])->paginate(20)->withQueryString();
     }
 }

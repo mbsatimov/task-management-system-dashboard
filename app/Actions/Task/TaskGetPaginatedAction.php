@@ -21,6 +21,6 @@ class TaskGetPaginatedAction
             $query->where('title', 'like', "%$search%");
         }
 
-        return $query->with(['category'])->paginate(20)->withQueryString();
+        return $query->with(['category', 'mentor', 'students'])->paginate(20)->withQueryString();
     }
 }

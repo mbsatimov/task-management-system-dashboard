@@ -1,12 +1,19 @@
 import { TaskCategory } from "@/types/models/taskCategory"
 import { User } from "@/types/models/user"
 
+export type TaskStatus = 'completed' | 'uncompleted' | 'discarded'
+
+interface StudentWithTaskStatus extends User {
+  status: TaskStatus
+}
+
 export interface Task {
   id: number
   title: string
   description: string
   video: string
   category: TaskCategory
-  created_by: User
-  updated_by: User
+  mentor: User
+  deadline: string
+  students: StudentWithTaskStatus[]
 }

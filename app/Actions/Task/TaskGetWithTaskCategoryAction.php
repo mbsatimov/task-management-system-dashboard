@@ -12,7 +12,7 @@ class TaskGetWithTaskCategoryAction
      */
     public function __invoke(Task $task): Task
     {
-        $task->load('category');
+        $task->load('category', 'mentor', 'students');
         return $task;
     }
 }

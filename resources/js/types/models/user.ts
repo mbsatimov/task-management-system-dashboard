@@ -7,6 +7,8 @@ export interface User {
   roles: Role[]
   created_at: string
   updated_at: string
-  student_number: string | null
-  category_id: number | null
+  details: {
+    student_number: string | null
+    category_id: number | null
+  } | null;
 }

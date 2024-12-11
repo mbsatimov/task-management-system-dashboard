@@ -15,7 +15,9 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description');
             $table->string('video');
+            $table->date('deadline');
             $table->foreignId('category_id')->constrained("task_categories")->cascadeOnDelete();
+            $table->foreignId('mentor_id')->constrained("users")->cascadeOnDelete();
             $table->timestamps();
         });
     }

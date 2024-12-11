@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,6 +28,20 @@ class TaskPostRequest extends FormRequest
             'description' => ['required', 'string', 'min:1', 'max:1000'],
             'video' => ['required', 'url', 'max:1000'],
             'category_id' => ['required', 'integer', 'exists:task_categories,id'],
+            'mentor_id' => ['required', 'integer', function ($attribute, $value, $fail) {
+                $user = User::find($value);
+                if (!$user->hasRole('mentor')) {
+                    $fail('The ' . $attribute . ' must have the mentor role.');
+                }
+            }],
+            'student_ids' => ['required', 'array', 'min:1', function ($attribute, $value, $fail) {
+                foreach ($value as $student_id) {
+                    $user = User::find($student_id);
+                    if (!$user->hasRole('student')) {
+                        $fail('The ' . $attribute . ' must have the student role.');
+                    }
+                }
+            }],
         ];
     }
 }

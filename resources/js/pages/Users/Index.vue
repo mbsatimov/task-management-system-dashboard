@@ -83,8 +83,8 @@ if (message.value) {
               {{ role.name }}
             </Badge>
           </TableCell>
-          <TableCell>{{ user?.student_number || "-" }}</TableCell>
-          <TableCell>{{ user?.category_id || "-" }}</TableCell>
+          <TableCell>{{ user.details?.student_number || "-" }}</TableCell>
+          <TableCell>{{ user.details?.category_id || "-" }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
               <Link :href="`/users/${user.id}/edit`">

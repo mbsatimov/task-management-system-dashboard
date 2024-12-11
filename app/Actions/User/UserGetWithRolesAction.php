@@ -8,22 +8,12 @@ class UserGetWithRolesAction
 {
     /**
      * @param User $user
-     * @return array
+     * @return User
      */
-    public function __invoke(User $user): array
+    public function __invoke(User $user): User
     {
-        // Load roles and include specific fields from the details JSON
-        $user = User::select(
-            'id',
-            'name',
-            'email',
-            'details->student_number as student_number',
-            'details->category_id as category_id'
-        )
-            ->where('id', $user->id)
-            ->with('roles') // Load roles relationship
-            ->firstOrFail(); // Retrieve the specific user or fail
+        $user->load('roles');
 
-        return $user->toArray(); // Convert the user to array with selected fields
+        return $user;
     }
 }

@@ -8,6 +8,7 @@ use App\Actions\Task\TaskGetWithTaskCategoryAction;
 use App\Actions\Task\TaskStoreAction;
 use App\Actions\Task\TaskUpdateAction;
 use App\Actions\TaskCategory\TaskCategoryGetAllAction;
+use App\Actions\User\UserGetPaginatedWithRolesAction;
 use App\Http\Requests\TaskPostRequest;
 use App\Http\Requests\TaskPutRequest;
 use App\Models\Task;
@@ -49,14 +50,23 @@ class TaskController extends Controller
     /**
      * @param Request $request
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
+     * @param UserGetPaginatedWithRolesAction $userGetPaginatedAction
      * @return Response
      */
-    public function create(Request $request, TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
-    {
+    public function create(
+        Request $request,
+        TaskCategoryGetAllAction $taskCategoryGetAllAction,
+        UserGetPaginatedWithRolesAction $userGetPaginatedAction
+    ): Response {
         $categories = $taskCategoryGetAllAction($request);
+        $students = $userGetPaginatedAction($request, 'student');
+        $mentors = $userGetPaginatedAction($request, 'mentor');
 
         return Inertia::render('Tasks/Create', [
-            'categories' => $categories
+            'categories' => $categories,
+            'students' => $students,
+            'mentors' => $mentors,
+            'searchTerm' => $request->search
         ]);
     }
 
@@ -65,20 +75,27 @@ class TaskController extends Controller
      * @param Task $task
      * @param TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
+     * @param UserGetPaginatedWithRolesAction $userGetPaginatedAction
      * @return Response
      */
     public function edit(
         Request $request,
         Task $task,
         TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction,
-        TaskCategoryGetAllAction $taskCategoryGetAllAction
+        TaskCategoryGetAllAction        $taskCategoryGetAllAction,
+        UserGetPaginatedWithRolesAction $userGetPaginatedAction
     ): Response {
         $task = $taskGetWithTaskCategoryAction($task);
         $categories = $taskCategoryGetAllAction($request);
+        $students = $userGetPaginatedAction($request, 'student');
+        $mentors = $userGetPaginatedAction($request, 'mentor');
 
         return Inertia::render('Tasks/Edit', [
             'task' => $task,
-            'categories' => $categories
+            'categories' => $categories,
+            'students' => $students,
+            'mentors' => $mentors,
+            'searchTerm' => $request->search
         ]);
     }
 
