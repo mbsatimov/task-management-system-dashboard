@@ -26,21 +26,14 @@ class Task extends Model
     ];
 
     /**
-     * @var string[]
-     */
-    protected $casts = [
-        'deadline' => 'datetime',
-    ];
-
-    // Relationship to the TaskCategory model
-
-    /**
      * @return BelongsTo
      */
     public function category(): BelongsTo
     {
         return $this->belongsTo(TaskCategory::class);
     }
+
+    // Relationship to the TaskCategory model
 
     /**
      * @return BelongsTo
@@ -55,6 +48,16 @@ class Task extends Model
      */
     public function students(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_task');
+        return $this->belongsToMany(User::class, 'user_task')->withPivot('status')->withTimestamps();
+    }
+
+    /**
+     * @return array
+     */
+    protected function casts(): array
+    {
+        return [
+            'deadline' => 'datetime',
+        ];
     }
 }

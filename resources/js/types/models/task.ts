@@ -7,6 +7,17 @@ interface StudentWithTaskStatus extends User {
   status: TaskStatus
 }
 
+export interface TaskPreview {
+  id: number
+  title: string
+  description: string
+  video: string
+  category: TaskCategory
+  mentor: User
+  deadline: string
+  students_count: number
+}
+
 export interface Task {
   id: number
   title: string

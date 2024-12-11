@@ -53,7 +53,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'details' => 'json',
+            'details' => 'array',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

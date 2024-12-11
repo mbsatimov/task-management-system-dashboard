@@ -1,14 +1,7 @@
 <script lang="ts" setup>
 import { router, usePage } from "@inertiajs/vue3"
 import { EditIcon, Trash2Icon } from "lucide-vue-next"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,14 +15,14 @@ import {
 import { Button } from "@/components/ui/button"
 import { toast } from "vue-sonner"
 import { computed, ref, watch } from "vue"
-import { Task } from "@/types/models/task"
+import { TaskPreview } from "@/types/models/task"
 import { Pagination } from "@/types/pagination"
 import { debounce } from "lodash"
 import { Input } from "@/components/ui/input"
 import PaginationLinks from "@/components/PaginationLinks.vue"
 
 const props = defineProps<{
-  tasks: Pagination<Task>
+  tasks: Pagination<TaskPreview>
   searchTerm: string | null
 }>()
 
@@ -71,17 +64,19 @@ if (message.value) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>#</TableHead>
           <TableHead>Title</TableHead>
           <TableHead>Category</TableHead>
+          <TableHead>Mentor</TableHead>
+          <TableHead>Students Count</TableHead>
           <TableHead class="text-end">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="(task, index) in tasks.data" :key="task.id">
-          <TableCell>{{ index + 1 }}</TableCell>
+        <TableRow v-for="task in tasks.data" :key="task.id">
           <TableCell>{{ task.title }}</TableCell>
           <TableCell>{{ task.category.name }}</TableCell>
+          <TableCell>{{ task.mentor.name }}</TableCell>
+          <TableCell>{{ task.students_count }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
               <Link :href="`/tasks/${task.id}/edit`">

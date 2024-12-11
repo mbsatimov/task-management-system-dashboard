@@ -27,6 +27,7 @@ class TaskPostRequest extends FormRequest
             'title' => ['required', 'string', 'min:1', 'max:255'],
             'description' => ['required', 'string', 'min:1', 'max:1000'],
             'video' => ['required', 'url', 'max:1000'],
+            'deadline' => ['required', 'date', 'after:now'],
             'category_id' => ['required', 'integer', 'exists:task_categories,id'],
             'mentor_id' => ['required', 'integer', function ($attribute, $value, $fail) {
                 $user = User::find($value);

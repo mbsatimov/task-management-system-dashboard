@@ -42,6 +42,7 @@ const form = useForm<
     title: string
     description: string
     video: string
+    deadline: string
     category_id: number
     mentor_id: number
     student_ids: number[]
@@ -51,6 +52,7 @@ const form = useForm<
   title: undefined,
   description: undefined,
   video: undefined,
+  deadline: undefined,
   category_id: undefined,
   mentor_id: undefined,
   student_ids: [],
@@ -95,6 +97,15 @@ const open = ref(false)
             <Label>Video Url</Label>
             <Input v-model="form.video" placeholder="Video url" type="url" />
             <FormMessage>{{ form.errors.video }}</FormMessage>
+          </div>
+          <div class="space-y-1">
+            <Label>Deadline</Label>
+            <Input
+              v-model="form.deadline"
+              placeholder="Deadline"
+              type="datetime-local"
+            />
+            <FormMessage>{{ form.errors.deadline }}</FormMessage>
           </div>
           <div class="space-y-1">
             <Label>Category</Label>
@@ -146,7 +157,7 @@ const open = ref(false)
                       <CommandItem
                         v-for="mentor in mentors.data"
                         :key="mentor.id"
-                        :value="mentor"
+                        :value="mentor.id"
                         @select="open = false"
                       >
                         <Check

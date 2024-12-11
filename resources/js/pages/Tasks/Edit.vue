@@ -13,6 +13,13 @@ import { Pagination } from "@/types/pagination"
 import { User } from "@/types/models/user"
 import { ref, watch } from "vue"
 import { debounce } from "lodash"
+import { Popover } from "@/components/ui/popover"
+import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
+import { cn } from "@/lib/utils"
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge"
+import PaginationLinks from "@/components/PaginationLinks.vue"
 
 const props = defineProps<{
   task: Task
@@ -27,7 +34,11 @@ const search = ref(props.searchTerm || "")
 watch(search, value =>
   debounce(
     () =>
-      router.get(`/tasks/edit/${props.task.id}`, { search: value }, { preserveState: true }),
+      router.get(
+        `/tasks/edit/${props.task.id}`,
+        { search: value },
+        { preserveState: true }
+      ),
     500
   )()
 )
@@ -36,17 +47,37 @@ const form = useForm<{
   title: string
   description: string
   video: string
+  deadline: string
   category_id?: number
+  mentor_id: number
+  student_ids: number[]
+  students: User[]
 }>({
   title: props.task.title,
   description: props.task.description,
   video: props.task.video,
+  deadline: props.task.deadline,
   category_id: props.task.category.id,
+  mentor_id: props.task.mentor.id,
+  student_ids: props.task.students.map(p => p.id),
+  students: props.task.students,
 })
 
 const submit = () => {
   form.put(`/tasks/${props.task.id}`)
 }
+
+const handleChange = (student: User) => {
+  if (form.student_ids?.includes(student.id)) {
+    form.student_ids = form.student_ids?.filter(p => p !== student.id)
+    form.students = form.students?.filter(p => p !== student)
+  } else {
+    form.student_ids?.push(student.id)
+    form.students?.push(student)
+  }
+}
+
+const open = ref(false)
 </script>
 <template>
   <div class="space-y-6">
@@ -70,6 +101,15 @@ const submit = () => {
             <Label>Video Url</Label>
             <Input v-model="form.video" placeholder="Video url" type="url" />
             <FormMessage>{{ form.errors.video }}</FormMessage>
+          </div>
+          <div class="space-y-1">
+            <Label>Deadline</Label>
+            <Input
+              v-model="form.deadline"
+              placeholder="Deadline"
+              type="datetime-local"
+            />
+            <FormMessage>{{ form.errors.deadline }}</FormMessage>
           </div>
           <div class="space-y-1">
             <Label>Category</Label>
@@ -104,8 +144,8 @@ const submit = () => {
                   {{
                     form.mentor_id
                       ? mentors.data.find(
-                        mentor => mentor.id === form.mentor_id
-                      )?.name
+                          mentor => mentor.id === form.mentor_id
+                        )?.name
                       : "Select mentor..."
                   }}
 

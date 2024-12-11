@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Actions\Task;
+namespace App\Actions\StudentTask;
 
-use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class TaskGetPaginatedAction
+class StudentTaskGetPaginatedAction
 {
     /**
      * @param Request $request
+     * @param $user
      * @return LengthAwarePaginator
      */
-    public function __invoke(Request $request): LengthAwarePaginator
+    public function __invoke(Request $request, $user): LengthAwarePaginator
     {
-        $query = Task::query();
-
+        $tasks = $user->tasksAsStudent();
+        $query = $tasks->query();
         if ($request->has('search') && $request->search) {
             $search = $request->search;
             $query->where('title', 'like', "%$search%");
         }
 
-        return $query->with(['category', 'mentor'])->withCount('students')->paginate(20)->withQueryString();
+        return $query->with(['category', 'mentor'])->paginate(20)->withQueryString();
     }
 }

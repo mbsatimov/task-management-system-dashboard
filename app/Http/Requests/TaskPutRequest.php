@@ -28,6 +28,7 @@ class TaskPutRequest extends FormRequest
             'description' => ['required', 'string', 'min:1', 'max:1000'],
             'video' => ['required', 'url', 'max:1000'],
             'category_id' => ['required', 'integer', 'exists:task_categories,id'],
+            'deadline' => ['required', 'date', 'after:now'],
             'mentor_id' => ['required', 'integer', function ($attribute, $value, $fail) {
                 $user = User::find($value);
                 if (!$user->hasRole('mentor')) {
