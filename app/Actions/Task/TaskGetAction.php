@@ -4,7 +4,7 @@ namespace App\Actions\Task;
 
 use App\Models\Task;
 
-class TaskGetWithTaskCategoryAction
+class TaskGetAction
 {
     /**
      * @param Task $task

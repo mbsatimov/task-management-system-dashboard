@@ -7,7 +7,7 @@ use App\Actions\Group\GroupGetPaginatedWithUsersAction;
 use App\Actions\Group\GroupGetWithUsersAction;
 use App\Actions\Group\GroupStoreAction;
 use App\Actions\Group\GroupUpdateAction;
-use App\Actions\User\UserGetPaginatedWithRolesAction;
+use App\Actions\User\UserGetPaginatedAction;
 use App\Http\Requests\GroupPostRequest;
 use App\Http\Requests\GroupPutRequest;
 use App\Models\Group;
@@ -35,10 +35,10 @@ class GroupController
 
     /**
      * @param Request $request
-     * @param UserGetPaginatedWithRolesAction $userGetPaginatedAction
+     * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
-    public function create(Request $request, UserGetPaginatedWithRolesAction $userGetPaginatedAction): Response
+    public function create(Request $request, UserGetPaginatedAction $userGetPaginatedAction): Response
     {
         $users = $userGetPaginatedAction($request);
 
@@ -65,14 +65,14 @@ class GroupController
      * @param Request $request
      * @param Group $group
      * @param GroupGetWithUsersAction $groupGetWithUsersAction
-     * @param UserGetPaginatedWithRolesAction $userGetPaginatedAction
+     * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
     public function edit(
         Request $request,
         Group $group,
         GroupGetWithUsersAction $groupGetWithUsersAction,
-        UserGetPaginatedWithRolesAction $userGetPaginatedAction
+        UserGetPaginatedAction $userGetPaginatedAction
     ): Response {
         $group = $groupGetWithUsersAction($group);
         $users = $userGetPaginatedAction($request);

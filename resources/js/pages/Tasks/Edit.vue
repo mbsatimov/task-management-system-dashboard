@@ -13,10 +13,10 @@ import { Pagination } from "@/types/pagination"
 import { User } from "@/types/models/user"
 import { ref, watch } from "vue"
 import { debounce } from "lodash"
-import { Popover } from "@/components/ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 import { cn } from "@/lib/utils"
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import PaginationLinks from "@/components/PaginationLinks.vue"
@@ -35,7 +35,7 @@ watch(search, value =>
   debounce(
     () =>
       router.get(
-        `/tasks/edit/${props.task.id}`,
+        `/tasks/${props.task.id}/edit`,
         { search: value },
         { preserveState: true }
       ),
@@ -161,7 +161,7 @@ const open = ref(false)
                       <CommandItem
                         v-for="mentor in mentors.data"
                         :key="mentor.id"
-                        :value="mentor"
+                        :value="mentor.id"
                         @select="open = false"
                       >
                         <Check

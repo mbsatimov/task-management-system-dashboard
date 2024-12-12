@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Task\TaskAssignStudentAction;
 use App\Actions\Task\TaskDestroyAction;
+use App\Actions\Task\TaskGetAction;
 use App\Actions\Task\TaskGetPaginatedAction;
-use App\Actions\Task\TaskGetWithTaskCategoryAction;
+use App\Actions\Task\TaskRemoveStudentAction;
 use App\Actions\Task\TaskStoreAction;
 use App\Actions\Task\TaskUpdateAction;
 use App\Actions\TaskCategory\TaskCategoryGetAllAction;
-use App\Actions\User\UserGetPaginatedWithRolesAction;
+use App\Actions\User\UserGetPaginatedAction;
+use App\Http\Requests\TaskPostAssignStudentRequest;
 use App\Http\Requests\TaskPostRequest;
 use App\Http\Requests\TaskPutRequest;
+use App\Http\Requests\TaskRemoveAssignedStudentRequest;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,6 +38,15 @@ class TaskController extends Controller
         ]);
     }
 
+    public function show(Task $task, TaskGetAction $taskGetAction): Response
+    {
+        $task = $taskGetAction($task);
+
+        return Inertia::render('Tasks/Show', [
+            'task' => $task,
+        ]);
+    }
+
     /**
      * @param TaskPostRequest $request
      * @param TaskStoreAction $taskStoreAction
@@ -50,13 +63,13 @@ class TaskController extends Controller
     /**
      * @param Request $request
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
-     * @param UserGetPaginatedWithRolesAction $userGetPaginatedAction
+     * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
     public function create(
-        Request $request,
-        TaskCategoryGetAllAction $taskCategoryGetAllAction,
-        UserGetPaginatedWithRolesAction $userGetPaginatedAction
+        Request                     $request,
+        TaskCategoryGetAllAction    $taskCategoryGetAllAction,
+        UserGetPaginatedAction      $userGetPaginatedAction
     ): Response {
         $categories = $taskCategoryGetAllAction($request);
         $students = $userGetPaginatedAction($request, 'student');
@@ -73,19 +86,19 @@ class TaskController extends Controller
     /**
      * @param Request $request
      * @param Task $task
-     * @param TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction
+     * @param TaskGetAction $taskGetAction
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
-     * @param UserGetPaginatedWithRolesAction $userGetPaginatedAction
+     * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
     public function edit(
-        Request $request,
-        Task $task,
-        TaskGetWithTaskCategoryAction $taskGetWithTaskCategoryAction,
-        TaskCategoryGetAllAction        $taskCategoryGetAllAction,
-        UserGetPaginatedWithRolesAction $userGetPaginatedAction
+        Request                  $request,
+        Task                     $task,
+        TaskGetAction            $taskGetAction,
+        TaskCategoryGetAllAction $taskCategoryGetAllAction,
+        UserGetPaginatedAction   $userGetPaginatedAction
     ): Response {
-        $task = $taskGetWithTaskCategoryAction($task);
+        $task = $taskGetAction($task);
         $categories = $taskCategoryGetAllAction($request);
         $students = $userGetPaginatedAction($request, 'student');
         $mentors = $userGetPaginatedAction($request, 'mentor');
@@ -106,9 +119,9 @@ class TaskController extends Controller
      * @return RedirectResponse
      */
     public function update(
-        TaskPutRequest $request,
-        Task $task,
-        TaskUpdateAction $taskUpdateAction
+        TaskPutRequest      $request,
+        Task                $task,
+        TaskUpdateAction    $taskUpdateAction
     ): RedirectResponse {
         $validated = $request->validated();
         $taskUpdateAction($task, $validated);
@@ -126,5 +139,27 @@ class TaskController extends Controller
         $taskDestroyAction($task);
 
         return redirect('tasks')->with('message', 'Task deleted successfully');
+    }
+
+    public function assignStudent(
+        TaskPostAssignStudentRequest    $request,
+        int                             $id,
+        TaskAssignStudentAction         $taskAssignStudentAction
+    ): RedirectResponse {
+        $validated = $request->validated();
+        $taskAssignStudentAction($id, $validated['student_id']);
+
+        return redirect('tasks')->with('message', 'Student assigned to task successfully');
+    }
+
+    public function removeStudent(
+        TaskRemoveAssignedStudentRequest    $request,
+        int                                 $id,
+        TaskRemoveStudentAction             $taskRemoveStudentAction
+    ): RedirectResponse {
+        $validated = $request->validated();
+        $taskRemoveStudentAction($id, $validated['student_id']);
+
+        return redirect('tasks/' . $id)->with('message', 'Student removed from task successfully');
     }
 }

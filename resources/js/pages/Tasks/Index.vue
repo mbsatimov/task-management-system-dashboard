@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { router, usePage } from "@inertiajs/vue3"
-import { EditIcon, Trash2Icon } from "lucide-vue-next"
+import { EditIcon, EyeIcon, Trash2Icon } from "lucide-vue-next"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   AlertDialog,
@@ -78,6 +78,11 @@ if (message.value) {
           <TableCell>{{ task.mentor.name }}</TableCell>
           <TableCell>{{ task.students_count }}</TableCell>
           <TableCell class="flex justify-end gap-2">
+            <Button as-child size="icon" variant="secondary">
+              <Link :href="`/tasks/${task.id}`">
+                <EyeIcon />
+              </Link>
+            </Button>
             <Button as-child size="icon">
               <Link :href="`/tasks/${task.id}/edit`">
                 <EditIcon />

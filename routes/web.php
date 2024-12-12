@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\StudentTaskController;
 use App\Http\Controllers\TaskCategoryController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -21,11 +20,8 @@ Route::group(['middleware' => ['role:super-admin|admin']], function () {
 
 Route::group(['middleware' => ['role:super-admin|admin|mentor']], function () {
     Route::resource('tasks', TaskController::class);
-});
-
-Route::group(['middleware' => ['role:super-admin|admin|student']], function () {
-    Route::get('/student-tasks', [StudentTaskController::class, 'index']);
-    Route::get('/student-tasks/{id}', [StudentTaskController::class, 'show']);
+    Route::post('/tasks/{id}/student', [TaskController::class, 'assignStudent']);
+    Route::delete('/tasks/{id}/student', [TaskController::class, 'removeStudent']);
 });
 
 Route::group(['middleware' => ['auth']], function () {

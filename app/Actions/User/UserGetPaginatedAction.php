@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class UserGetPaginatedWithRolesAction
+class UserGetPaginatedAction
 {
     /**
      * @param Request $request

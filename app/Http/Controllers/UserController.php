@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Role\RoleGetAllAction;
 use App\Actions\TaskCategory\TaskCategoryGetAllAction;
 use App\Actions\User\UserDestroyAction;
-use App\Actions\User\UserGetPaginatedWithRolesAction;
+use App\Actions\User\UserGetPaginatedAction;
 use App\Actions\User\UserGetWithRolesAction;
 use App\Actions\User\UserStoreAction;
 use App\Actions\User\UserUpdateAction;
@@ -21,12 +21,12 @@ class UserController extends Controller
 {
     /**
      * @param Request $request
-     * @param UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction
+     * @param UserGetPaginatedAction $userGetPaginatedWithRolesAction
      * @return Response
      */
     public function index(
         Request                         $request,
-        UserGetPaginatedWithRolesAction $userGetPaginatedWithRolesAction
+        UserGetPaginatedAction $userGetPaginatedWithRolesAction
     ): Response {
         $users = $userGetPaginatedWithRolesAction($request);
 
