@@ -67,6 +67,9 @@ const submit = () => {
   form.put(`/tasks/${props.task.id}`)
 }
 
+/**
+ * @param student {User}
+ */
 const handleChange = (student: User) => {
   if (form.student_ids?.includes(student.id)) {
     form.student_ids = form.student_ids?.filter(p => p !== student.id)

@@ -3,27 +3,14 @@ import { XIcon } from "lucide-vue-next"
 import { router, useForm } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { FormMessage } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { User } from "@/types/models/user"
 import { Pagination } from "@/types/pagination"
 import { ref, watch } from "vue"
 import { debounce } from "lodash"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import PaginationLinks from "@/components/PaginationLinks.vue"
 
@@ -51,6 +38,9 @@ const form = useForm<{
   users: [],
 })
 
+/**
+ * @param user {User}
+ */
 const handleChange = (user: User) => {
   if (form.user_ids.includes(user.id)) {
     form.user_ids = form.user_ids.filter(p => p !== user.id)

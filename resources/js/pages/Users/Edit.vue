@@ -35,6 +35,9 @@ const form = useForm<
   roles: user.roles.map(role => role.name),
 })
 
+/**
+ * @param name {string}
+ */
 const handleChange = (name: string) => {
   if (form.roles?.includes(name)) {
     form.roles = form.roles?.filter(p => p !== name)

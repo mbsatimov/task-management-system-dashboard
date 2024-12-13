@@ -38,6 +38,11 @@ class TaskController extends Controller
         ]);
     }
 
+    /**
+     * @param Task $task
+     * @param TaskGetAction $taskGetAction
+     * @return Response
+     */
     public function show(Task $task, TaskGetAction $taskGetAction): Response
     {
         $task = $taskGetAction($task);
@@ -141,6 +146,12 @@ class TaskController extends Controller
         return redirect('tasks')->with('message', 'Task deleted successfully');
     }
 
+    /**
+     * @param TaskPostAssignStudentRequest $request
+     * @param int $id
+     * @param TaskAssignStudentAction $taskAssignStudentAction
+     * @return RedirectResponse
+     */
     public function assignStudent(
         TaskPostAssignStudentRequest    $request,
         int                             $id,
@@ -152,6 +163,12 @@ class TaskController extends Controller
         return redirect('tasks')->with('message', 'Student assigned to task successfully');
     }
 
+    /**
+     * @param TaskRemoveAssignedStudentRequest $request
+     * @param int $id
+     * @param TaskRemoveStudentAction $taskRemoveStudentAction
+     * @return RedirectResponse
+     */
     public function removeStudent(
         TaskRemoveAssignedStudentRequest    $request,
         int                                 $id,

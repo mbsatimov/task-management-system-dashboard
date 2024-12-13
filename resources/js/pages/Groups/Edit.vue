@@ -40,6 +40,9 @@ const form = useForm<{
   users: props.group.users,
 })
 
+/**
+ * @param user {User}
+ */
 const handleChange = (user: User) => {
   if (form.user_ids.includes(user.id)) {
     form.user_ids = form.user_ids.filter(p => p !== user.id)
