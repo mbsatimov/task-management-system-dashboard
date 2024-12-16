@@ -3,33 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Group\GroupDestroyAction;
-use App\Actions\Group\GroupGetPaginatedWithUsersAction;
-use App\Actions\Group\GroupGetWithUsersAction;
+use App\Actions\Group\GroupGetAction;
+use App\Actions\Group\GroupGetPaginatedAction;
 use App\Actions\Group\GroupStoreAction;
 use App\Actions\Group\GroupUpdateAction;
 use App\Actions\User\UserGetPaginatedAction;
 use App\Http\Requests\GroupPostRequest;
 use App\Http\Requests\GroupPutRequest;
 use App\Models\Group;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class GroupController
 {
     /**
-     * @param GroupGetPaginatedWithUsersAction $groupGetPaginatedAction
+     * @param Request $request
+     * @param GroupGetPaginatedAction $groupGetPaginatedAction
      * @return Response
      */
-    public function index(GroupGetPaginatedWithUsersAction $groupGetPaginatedAction): Response
+    public function index(Request $request, GroupGetPaginatedAction $groupGetPaginatedAction): Response
     {
-        $groups = $groupGetPaginatedAction();
+        $groups = $groupGetPaginatedAction($request);
 
         return Inertia::render('Groups/Index', [
-            'groups' => $groups
+            'groups' => $groups,
+            'searchTerm' => $request->search
         ]);
     }
 
@@ -64,17 +64,17 @@ class GroupController
     /**
      * @param Request $request
      * @param Group $group
-     * @param GroupGetWithUsersAction $groupGetWithUsersAction
+     * @param GroupGetAction $groupGetAction
      * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
     public function edit(
-        Request $request,
-        Group $group,
-        GroupGetWithUsersAction $groupGetWithUsersAction,
+        Request                $request,
+        Group                  $group,
+        GroupGetAction         $groupGetAction,
         UserGetPaginatedAction $userGetPaginatedAction
     ): Response {
-        $group = $groupGetWithUsersAction($group);
+        $group = $groupGetAction($group);
         $users = $userGetPaginatedAction($request);
 
         return Inertia::render('Groups/Edit', [
@@ -88,10 +88,13 @@ class GroupController
      * @param GroupPutRequest $request
      * @param Group $group
      * @param GroupUpdateAction $groupUpdateAction
-     * @return Application|RedirectResponse|Redirector
+     * @return RedirectResponse
      */
-    public function update(GroupPutRequest $request, Group $group, GroupUpdateAction $groupUpdateAction)
-    {
+    public function update(
+        GroupPutRequest     $request,
+        Group               $group,
+        GroupUpdateAction   $groupUpdateAction
+    ): RedirectResponse {
         $validated = $request->validated();
         $groupUpdateAction($group, $validated);
 

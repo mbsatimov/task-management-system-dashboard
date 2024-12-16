@@ -4,7 +4,7 @@ namespace App\Actions\Group;
 
 use App\Models\Group;
 
-class GroupGetWithUsersAction
+class GroupGetAction
 {
     /**
      * @param Group $group

@@ -116,7 +116,10 @@ const open = ref(false)
           </div>
           <div class="space-y-1">
             <Label>Category</Label>
-            <Select @update:modelValue="val => (form.category_id = +val)">
+            <Select
+              :default-value="String(form.category_id)"
+              @update:modelValue="val => (form.category_id = +val)"
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>

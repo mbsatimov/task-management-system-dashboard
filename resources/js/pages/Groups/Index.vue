@@ -1,14 +1,7 @@
 <script lang="ts" setup>
 import { router, usePage } from "@inertiajs/vue3"
 import { EditIcon, Trash2Icon } from "lucide-vue-next"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,13 +14,25 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { toast } from "vue-sonner"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import { Group } from "@/types/models/group"
 import { Pagination } from "@/types/pagination"
+import { Input } from "@/components/ui/input"
+import { debounce } from "lodash"
 
-defineProps<{
+const props = defineProps<{
   groups: Pagination<Group>
+  searchTerm: string
 }>()
+
+const search = ref(props.searchTerm || "")
+
+watch(search, value =>
+  debounce(
+    () => router.get("/tasks", { search: value }, { preserveState: true }),
+    500
+  )()
+)
 
 const onDelete = (id: number) => {
   router.delete(`/groups/${id}`)
@@ -44,7 +49,13 @@ if (message.value) {
 <template>
   <div>
     <h1 class="py-4 text-2xl font-bold">Groups</h1>
-    <div class="mb-4 flex justify-end">
+    <div class="mb-4 flex justify-between">
+      <Input
+        v-model="search"
+        class="max-w-md"
+        placeholder="Search..."
+        type="text"
+      />
       <Button as-child>
         <Link href="/groups/create">Create new Group</Link>
       </Button>

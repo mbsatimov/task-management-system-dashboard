@@ -4,7 +4,7 @@ namespace App\Actions\User;
 
 use App\Models\User;
 
-class UserGetWithRolesAction
+class UserGetAction
 {
     /**
      * @param User $user

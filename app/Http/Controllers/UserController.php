@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Actions\Role\RoleGetAllAction;
 use App\Actions\TaskCategory\TaskCategoryGetAllAction;
 use App\Actions\User\UserDestroyAction;
+use App\Actions\User\UserGetAction;
 use App\Actions\User\UserGetPaginatedAction;
-use App\Actions\User\UserGetWithRolesAction;
 use App\Actions\User\UserStoreAction;
 use App\Actions\User\UserUpdateAction;
 use App\Http\Requests\UserPostRequest;
@@ -72,7 +72,7 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @param User $user
-     * @param UserGetWithRolesAction $userWithRolesAction
+     * @param UserGetAction $userGetAction
      * @param RoleGetAllAction $roleGetAllAction
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
@@ -80,11 +80,11 @@ class UserController extends Controller
     public function edit(
         Request                  $request,
         User                     $user,
-        UserGetWithRolesAction   $userWithRolesAction,
+        UserGetAction            $userGetAction,
         RoleGetAllAction         $roleGetAllAction,
         TaskCategoryGetAllAction $taskCategoryGetAllAction,
     ): Response {
-        $user = $userWithRolesAction($user);
+        $user = $userGetAction($user);
         $roles = $roleGetAllAction();
         $categories = $taskCategoryGetAllAction($request);
 

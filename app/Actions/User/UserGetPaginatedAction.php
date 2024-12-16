@@ -21,7 +21,6 @@ class UserGetPaginatedAction
             $query->where('name', 'like', "%$search%")
                 ->orWhere('email', 'like', "%$search%");
         }
-
         if ($role) {
             $query->whereHas('roles', function ($query) use ($role) {
                 $query->where('name', $role);
