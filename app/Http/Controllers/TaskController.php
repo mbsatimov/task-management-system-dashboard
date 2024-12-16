@@ -11,6 +11,7 @@ use App\Actions\Task\TaskStoreAction;
 use App\Actions\Task\TaskUpdateAction;
 use App\Actions\TaskCategory\TaskCategoryGetAllAction;
 use App\Actions\User\UserGetPaginatedAction;
+use App\Http\Requests\TaskGetPaginatedRequest;
 use App\Http\Requests\TaskPostAssignStudentRequest;
 use App\Http\Requests\TaskPostRequest;
 use App\Http\Requests\TaskPutRequest;
@@ -24,11 +25,11 @@ use Inertia\Response;
 class TaskController extends Controller
 {
     /**
-     * @param Request $request
+     * @param TaskGetPaginatedRequest $request
      * @param TaskGetPaginatedAction $taskGetPaginatedAction
      * @return Response
      */
-    public function index(Request $request, TaskGetPaginatedAction $taskGetPaginatedAction): Response
+    public function index(TaskGetPaginatedRequest $request, TaskGetPaginatedAction $taskGetPaginatedAction): Response
     {
         $tasks = $taskGetPaginatedAction($request);
 

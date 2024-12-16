@@ -2,18 +2,18 @@
 
 namespace App\Actions\User;
 
+use App\Http\Requests\UserGetPaginatedRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserGetPaginatedAction
 {
     /**
-     * @param Request $request
+     * @param UserGetPaginatedRequest $request
      * @param string|null $role
      * @return LengthAwarePaginator
      */
-    public function __invoke(Request $request, ?string $role = null): LengthAwarePaginator
+    public function __invoke(UserGetPaginatedRequest $request, ?string $role = null): LengthAwarePaginator
     {
         $query = User::query();
         if ($request->has('search') && $request->search) {

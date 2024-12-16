@@ -9,6 +9,7 @@ use App\Actions\User\UserGetAction;
 use App\Actions\User\UserGetPaginatedAction;
 use App\Actions\User\UserStoreAction;
 use App\Actions\User\UserUpdateAction;
+use App\Http\Requests\UserGetPaginatedRequest;
 use App\Http\Requests\UserPostRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Models\User;
@@ -20,14 +21,15 @@ use Inertia\Response;
 class UserController extends Controller
 {
     /**
-     * @param Request $request
+     * @param UserGetPaginatedRequest $request
      * @param UserGetPaginatedAction $userGetPaginatedWithRolesAction
      * @return Response
      */
     public function index(
-        Request                         $request,
-        UserGetPaginatedAction $userGetPaginatedWithRolesAction
+        UserGetPaginatedRequest     $request,
+        UserGetPaginatedAction      $userGetPaginatedWithRolesAction
     ): Response {
+        $request->validated();
         $users = $userGetPaginatedWithRolesAction($request);
 
         return Inertia::render('Users/Index', [

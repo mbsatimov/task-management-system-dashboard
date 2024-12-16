@@ -2,17 +2,17 @@
 
 namespace App\Actions\TaskCategory;
 
+use App\Http\Requests\TaskCategoryGetAllRequest;
 use App\Models\TaskCategory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class TaskCategoryGetAllAction
 {
     /**
-     * @param Request $request
+     * @param TaskCategoryGetAllRequest $request
      * @return Collection
      */
-    public function __invoke(Request $request): Collection
+    public function __invoke(TaskCategoryGetAllRequest $request): Collection
     {
         $query = TaskCategory::query();
 

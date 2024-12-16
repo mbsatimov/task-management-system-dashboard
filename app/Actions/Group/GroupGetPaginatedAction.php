@@ -2,17 +2,17 @@
 
 namespace App\Actions\Group;
 
+use App\Http\Requests\GroupGetPaginatedRequest;
 use App\Models\Group;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class GroupGetPaginatedAction
 {
     /**
-     * @param Request $request
+     * @param GroupGetPaginatedRequest $request
      * @return LengthAwarePaginator
      */
-    public function __invoke(Request $request): LengthAwarePaginator
+    public function __invoke(GroupGetPaginatedRequest $request): LengthAwarePaginator
     {
         $query = Group::query();
 

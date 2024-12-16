@@ -8,6 +8,7 @@ use App\Actions\Group\GroupGetPaginatedAction;
 use App\Actions\Group\GroupStoreAction;
 use App\Actions\Group\GroupUpdateAction;
 use App\Actions\User\UserGetPaginatedAction;
+use App\Http\Requests\GroupGetPaginatedRequest;
 use App\Http\Requests\GroupPostRequest;
 use App\Http\Requests\GroupPutRequest;
 use App\Models\Group;
@@ -19,11 +20,11 @@ use Inertia\Response;
 class GroupController
 {
     /**
-     * @param Request $request
+     * @param GroupGetPaginatedRequest $request
      * @param GroupGetPaginatedAction $groupGetPaginatedAction
      * @return Response
      */
-    public function index(Request $request, GroupGetPaginatedAction $groupGetPaginatedAction): Response
+    public function index(GroupGetPaginatedRequest $request, GroupGetPaginatedAction $groupGetPaginatedAction): Response
     {
         $groups = $groupGetPaginatedAction($request);
 

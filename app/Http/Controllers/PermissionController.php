@@ -6,10 +6,10 @@ use App\Actions\Permission\PermissionDestroyAction;
 use App\Actions\Permission\PermissionGetAllAction;
 use App\Actions\Permission\PermissionStoreAction;
 use App\Actions\Permission\PermissionUpdateAction;
+use App\Http\Requests\PermissionGetAllRequest;
 use App\Http\Requests\PermissionPostRequest;
 use App\Http\Requests\PermissionPutRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
@@ -17,11 +17,11 @@ use Spatie\Permission\Models\Permission;
 class PermissionController extends Controller
 {
     /**
-     * @param Request $request
+     * @param PermissionGetAllRequest $request
      * @param PermissionGetAllAction $permissionGetAllAction
      * @return Response
      */
-    public function index(Request $request, PermissionGetAllAction $permissionGetAllAction): Response
+    public function index(PermissionGetAllRequest $request, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $permissions = $permissionGetAllAction($request);
 

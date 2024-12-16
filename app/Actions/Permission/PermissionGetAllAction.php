@@ -2,17 +2,17 @@
 
 namespace App\Actions\Permission;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PermissionGetAllRequest;
 use Illuminate\Support\Collection;
 use Spatie\Permission\Models\Permission;
 
 class PermissionGetAllAction
 {
     /**
-     * @param Request $request
+     * @param PermissionGetAllRequest $request
      * @return Collection
      */
-    public function __invoke(Request $request): Collection
+    public function __invoke(PermissionGetAllRequest $request): Collection
     {
         $query = Permission::query();
 

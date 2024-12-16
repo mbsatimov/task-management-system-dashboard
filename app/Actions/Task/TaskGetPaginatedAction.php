@@ -2,17 +2,17 @@
 
 namespace App\Actions\Task;
 
+use App\Http\Requests\TaskGetPaginatedRequest;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskGetPaginatedAction
 {
     /**
-     * @param Request $request
+     * @param TaskGetPaginatedRequest $request
      * @return LengthAwarePaginator
      */
-    public function __invoke(Request $request): LengthAwarePaginator
+    public function __invoke(TaskGetPaginatedRequest $request): LengthAwarePaginator
     {
         $query = Task::query();
 
