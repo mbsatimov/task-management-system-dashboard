@@ -28,38 +28,45 @@ Copy the .env.example file to .env:
 cp .env.example .env
 ```
 
-### 3. Run the Docker containers
+### 3. Install Dependaecies
+
+```sh
+composer install
+```
+
+### 4. Bring Sail Up
+
+Start the Docker containers with Sail:
 
 ```sh
 ./vendor/bin/sail up -d
-./vendor/bin/sail composer install
 ```
 
-Install frontend dependencies:
-
-```sh
-./vendor/bin/sail npm install
-```
-
-### 4. Generate Application Key
+### 5. Generate Application Key
 
 ```sh
 ./vendor/bin/sail artisan key:generate
 ```
 
-### 5. Set Up Database
+### 6. Set Up Database
 
 ```sh
 ./vendor/bin/sail artisan migrate
 ./vendor/bin/sail artisan db:seed
 ```
 
-### 6. Build Frontend Assets
+### 7. Build Frontend Assets
 
-Compile the Vue.js frontend assets:
+Development Build
 
 ```sh
 ./vendor/bin/sail npm run dev
+```
+
+Production Build
+
+```sh
+./vendor/bin/sail npm run build
 ```
 
 ### 7. Access the Application
