@@ -55,7 +55,13 @@ Start the Docker containers with Sail:
 ./vendor/bin/sail artisan db:seed
 ```
 
-### 7. Build Frontend Assets
+### 7. Install Frontend Dependencies
+
+```sh
+./vendor/bin/sail npm install
+```
+
+### 8. Build Frontend Assets
 
 Development Build
 
@@ -69,6 +75,6 @@ Production Build
 ./vendor/bin/sail npm run build
 ```
 
-### 8. Access the Application
+### 9. Access the Application
 
 Visit http://localhost in your browser.
