@@ -69,6 +69,6 @@ Production Build
 ./vendor/bin/sail npm run build
 ```
 
-### 7. Access the Application
+### 8. Access the Application
 
 Visit http://localhost in your browser.
