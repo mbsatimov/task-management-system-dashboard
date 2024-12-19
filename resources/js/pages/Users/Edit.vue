@@ -59,7 +59,12 @@ const submit = () => {
       <CardContent class="space-y-6">
         <div>
           <Label for="name">Name</Label>
-          <Input id="name" v-model="form.name" name="name" placeholder="Last name" />
+          <Input
+            id="name"
+            v-model="form.name"
+            name="name"
+            placeholder="Last name"
+          />
           <FormMessage>{{ form.errors.name }}</FormMessage>
         </div>
         <div>
@@ -117,8 +122,10 @@ const submit = () => {
         </div>
         <div v-if="form.roles?.includes('mentor')" class="space-y-1">
           <Label>Category</Label>
-          <Select :default-value="String(user.details?.category_id)"
-                  @update:modelValue="val => (form.category_id = +val)">
+          <Select
+            :default-value="String(user.details?.category_id)"
+            @update:modelValue="val => (form.category_id = +val)"
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
@@ -142,7 +149,7 @@ const submit = () => {
           <Link href="/users">Cancel</Link>
         </Button>
         <Button :disabled="form.processing" class="primary-btn" type="submit">
-          Create
+          Update
         </Button>
       </CardFooter>
     </form>

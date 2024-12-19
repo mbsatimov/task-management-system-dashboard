@@ -11,9 +11,9 @@ use App\Actions\User\UserGetPaginatedAction;
 use App\Http\Requests\GroupGetPaginatedRequest;
 use App\Http\Requests\GroupPostRequest;
 use App\Http\Requests\GroupPutRequest;
+use App\Http\Requests\UserGetPaginatedRequest;
 use App\Models\Group;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -35,12 +35,14 @@ class GroupController
     }
 
     /**
-     * @param Request $request
+     * @param UserGetPaginatedRequest $request
      * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
-    public function create(Request $request, UserGetPaginatedAction $userGetPaginatedAction): Response
-    {
+    public function create(
+        UserGetPaginatedRequest     $request,
+        UserGetPaginatedAction      $userGetPaginatedAction
+    ): Response {
         $users = $userGetPaginatedAction($request);
 
         return Inertia::render('Groups/Create', [
@@ -63,17 +65,17 @@ class GroupController
     }
 
     /**
-     * @param Request $request
+     * @param UserGetPaginatedRequest $request
      * @param Group $group
      * @param GroupGetAction $groupGetAction
      * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
     public function edit(
-        Request                $request,
-        Group                  $group,
-        GroupGetAction         $groupGetAction,
-        UserGetPaginatedAction $userGetPaginatedAction
+        UserGetPaginatedRequest    $request,
+        Group                      $group,
+        GroupGetAction             $groupGetAction,
+        UserGetPaginatedAction     $userGetPaginatedAction
     ): Response {
         $group = $groupGetAction($group);
         $users = $userGetPaginatedAction($request);

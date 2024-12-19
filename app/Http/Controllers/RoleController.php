@@ -8,10 +8,10 @@ use App\Actions\Role\RoleGetAllWithPermissionsAction;
 use App\Actions\Role\RoleGetWithPermissionsAction;
 use App\Actions\Role\RoleStoreAction;
 use App\Actions\Role\RoleUpdateAction;
+use App\Http\Requests\PermissionGetAllRequest;
 use App\Http\Requests\RolePostRequest;
 use App\Http\Requests\RolePutRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -45,11 +45,11 @@ class RoleController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param PermissionGetAllRequest $request
      * @param PermissionGetAllAction $permissionGetAllAction
      * @return Response
      */
-    public function create(Request $request, PermissionGetAllAction $permissionGetAllAction): Response
+    public function create(PermissionGetAllRequest $request, PermissionGetAllAction $permissionGetAllAction): Response
     {
         $permissions = $permissionGetAllAction($request);
 
@@ -59,14 +59,14 @@ class RoleController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param PermissionGetAllRequest $request
      * @param Role $role
      * @param RoleGetWithPermissionsAction $roleGetWithPermissionAction
      * @param PermissionGetAllAction $permissionGetAllAction
      * @return Response
      */
     public function edit(
-        Request $request,
+        PermissionGetAllRequest $request,
         Role $role,
         RoleGetWithPermissionsAction $roleGetWithPermissionAction,
         PermissionGetAllAction $permissionGetAllAction

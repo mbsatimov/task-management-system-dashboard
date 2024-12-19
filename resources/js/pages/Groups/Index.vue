@@ -19,17 +19,18 @@ import { Group } from "@/types/models/group"
 import { Pagination } from "@/types/pagination"
 import { Input } from "@/components/ui/input"
 import { debounce } from "lodash"
+import PaginationLinks from "@/components/PaginationLinks.vue"
 
 const props = defineProps<{
   groups: Pagination<Group>
-  searchTerm: string
+  searchTerm: string | null
 }>()
 
 const search = ref(props.searchTerm || "")
 
 watch(search, value =>
   debounce(
-    () => router.get("/tasks", { search: value }, { preserveState: true }),
+    () => router.get("/groups", { search: value }, { preserveState: true }),
     500
   )()
 )
@@ -105,5 +106,6 @@ if (message.value) {
         </TableRow>
       </TableBody>
     </Table>
+    <PaginationLinks :paginator="groups" class="mt-4" />
   </div>
 </template>

@@ -17,11 +17,10 @@ class GroupGetPaginatedAction
         $query = Group::query();
 
         if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->where('name', 'like', "%$search%");
+            $search = strtolower($request->search);
+            $query->whereRaw('LOWER(name) like ?', ["%$search%"]);
         }
 
-        return $query->with(['users'])->paginate(20)->withQueryString();
+        return $query->paginate(20)->withQueryString();
     }
-
 }

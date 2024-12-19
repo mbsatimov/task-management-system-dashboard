@@ -16,17 +16,23 @@ class UserGetPaginatedAction
     public function __invoke(UserGetPaginatedRequest $request, ?string $role = null): LengthAwarePaginator
     {
         $query = User::query();
-        if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%");
-        }
-        if ($role) {
-            $query->whereHas('roles', function ($query) use ($role) {
-                $query->where('name', $role);
-            });
-        }
+        $query->where(function ($query) use ($request, $role) {
+            // Search filter
+            if ($request->has('search') && $request->search) {
+                $search = strtolower($request->search);
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->whereRaw('LOWER(name) like ?', ["%$search%"])
+                        ->orWhereRaw('LOWER(email) like ?', ["%$search%"]);
+                });
+            }
 
+            // Role filter
+            if ($role) {
+                $query->whereHas('roles', function ($subQuery) use ($role) {
+                    $subQuery->where('name', $role);
+                });
+            }
+        });
         return $query->with(['roles'])->paginate(20)->withQueryString();
     }
 }

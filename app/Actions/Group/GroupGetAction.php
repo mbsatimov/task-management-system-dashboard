@@ -3,6 +3,7 @@
 namespace App\Actions\Group;
 
 use App\Models\Group;
+use App\Models\User;
 
 class GroupGetAction
 {
@@ -12,7 +13,8 @@ class GroupGetAction
      */
     public function __invoke(Group $group): Group
     {
-        $group->load('users');
+        $users = User::where('details->group_id', $group->id)->get();
+        $group->setAttribute('users', $users);
         return $group;
     }
 }

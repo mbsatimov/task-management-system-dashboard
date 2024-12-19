@@ -9,12 +9,12 @@ use App\Actions\User\UserGetAction;
 use App\Actions\User\UserGetPaginatedAction;
 use App\Actions\User\UserStoreAction;
 use App\Actions\User\UserUpdateAction;
+use App\Http\Requests\TaskCategoryGetAllRequest;
 use App\Http\Requests\UserGetPaginatedRequest;
 use App\Http\Requests\UserPostRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -52,15 +52,15 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param TaskCategoryGetAllRequest $request
      * @param RoleGetAllAction $roleGetAllAction
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
      */
     public function create(
-        Request                  $request,
-        RoleGetAllAction         $roleGetAllAction,
-        TaskCategoryGetAllAction $taskCategoryGetAllAction
+        TaskCategoryGetAllRequest   $request,
+        RoleGetAllAction            $roleGetAllAction,
+        TaskCategoryGetAllAction    $taskCategoryGetAllAction
     ): Response {
         $roles = $roleGetAllAction();
         $categories = $taskCategoryGetAllAction($request);
@@ -72,7 +72,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param TaskCategoryGetAllRequest $request
      * @param User $user
      * @param UserGetAction $userGetAction
      * @param RoleGetAllAction $roleGetAllAction
@@ -80,11 +80,11 @@ class UserController extends Controller
      * @return Response
      */
     public function edit(
-        Request                  $request,
-        User                     $user,
-        UserGetAction            $userGetAction,
-        RoleGetAllAction         $roleGetAllAction,
-        TaskCategoryGetAllAction $taskCategoryGetAllAction,
+        TaskCategoryGetAllRequest            $request,
+        User                                 $user,
+        UserGetAction                        $userGetAction,
+        RoleGetAllAction                     $roleGetAllAction,
+        TaskCategoryGetAllAction             $taskCategoryGetAllAction,
     ): Response {
         $user = $userGetAction($user);
         $roles = $roleGetAllAction();

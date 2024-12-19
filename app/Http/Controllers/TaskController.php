@@ -16,9 +16,9 @@ use App\Http\Requests\TaskPostAssignStudentRequest;
 use App\Http\Requests\TaskPostRequest;
 use App\Http\Requests\TaskPutRequest;
 use App\Http\Requests\TaskRemoveAssignedStudentRequest;
+use App\Http\Requests\UserGetPaginatedRequest;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -67,17 +67,17 @@ class TaskController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UserGetPaginatedRequest $request
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @param UserGetPaginatedAction $userGetPaginatedAction
      * @return Response
      */
     public function create(
-        Request                     $request,
+        UserGetPaginatedRequest     $request,
         TaskCategoryGetAllAction    $taskCategoryGetAllAction,
         UserGetPaginatedAction      $userGetPaginatedAction
     ): Response {
-        $categories = $taskCategoryGetAllAction($request);
+        $categories = $taskCategoryGetAllAction();
         $students = $userGetPaginatedAction($request, 'student');
         $mentors = $userGetPaginatedAction($request, 'mentor');
 
@@ -90,7 +90,7 @@ class TaskController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UserGetPaginatedRequest $request
      * @param Task $task
      * @param TaskGetAction $taskGetAction
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
@@ -98,14 +98,14 @@ class TaskController extends Controller
      * @return Response
      */
     public function edit(
-        Request                  $request,
+        UserGetPaginatedRequest  $request,
         Task                     $task,
         TaskGetAction            $taskGetAction,
         TaskCategoryGetAllAction $taskCategoryGetAllAction,
         UserGetPaginatedAction   $userGetPaginatedAction
     ): Response {
         $task = $taskGetAction($task);
-        $categories = $taskCategoryGetAllAction($request);
+        $categories = $taskCategoryGetAllAction();
         $students = $userGetPaginatedAction($request, 'student');
         $mentors = $userGetPaginatedAction($request, 'mentor');
 

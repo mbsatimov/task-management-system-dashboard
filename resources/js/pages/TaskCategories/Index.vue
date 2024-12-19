@@ -2,14 +2,7 @@
 import { router, usePage } from "@inertiajs/vue3"
 import { toast } from "vue-sonner"
 import { EditIcon, Trash2Icon } from "lucide-vue-next"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { TaskCategory } from "@/types/models/taskCategory"
 import {
   AlertDialog,
@@ -22,28 +15,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { computed, ref, watch } from "vue"
-import { Input } from "@/components/ui/input"
-import { debounce } from "lodash"
+import { computed } from "vue"
 
 const props = defineProps<{
   taskCategories: TaskCategory[]
-  searchTerm: string | null
 }>()
-
-const search = ref(props.searchTerm || "")
-
-watch(search, value =>
-  debounce(
-    () =>
-      router.get(
-        "/task-categories",
-        { search: value },
-        { preserveState: true }
-      ),
-    500
-  )()
-)
 
 const onDelete = (id: number) => {
   router.delete(`/task-categories/${id}`)
@@ -61,13 +37,7 @@ if (message.value) {
 <template>
   <div>
     <h1 class="py-4 text-2xl font-bold">Task Categories</h1>
-    <div class="mb-4 flex justify-between gap-4">
-      <Input
-        v-model="search"
-        class="max-w-md"
-        placeholder="Search..."
-        type="text"
-      />
+    <div class="mb-4 flex justify-end gap-4">
       <Button as-child>
         <Link href="/task-categories/create">Create new Task Category</Link>
       </Button>

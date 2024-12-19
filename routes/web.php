@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
-use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskCategoryController;
 use App\Http\Controllers\TaskController;
@@ -15,7 +14,6 @@ Route::group(['middleware' => ['role:super-admin|admin']], function () {
     Route::resource('groups', GroupController::class);
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
-    Route::resource('permissions', PermissionController::class);
 });
 
 Route::group(['middleware' => ['role:super-admin|admin|mentor']], function () {

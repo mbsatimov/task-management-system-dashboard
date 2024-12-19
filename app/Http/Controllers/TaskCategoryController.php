@@ -6,7 +6,6 @@ use App\Actions\TaskCategory\TaskCategoryDestroyAction;
 use App\Actions\TaskCategory\TaskCategoryGetAllAction;
 use App\Actions\TaskCategory\TaskCategoryStoreAction;
 use App\Actions\TaskCategory\TaskCategoryUpdateAction;
-use App\Http\Requests\TaskCategoryGetAllRequest;
 use App\Http\Requests\TaskCategoryPostRequest;
 use App\Http\Requests\TaskCategoryPutRequest;
 use App\Models\TaskCategory;
@@ -17,17 +16,15 @@ use Inertia\Response;
 class TaskCategoryController extends Controller
 {
     /**
-     * @param TaskCategoryGetAllRequest $request
      * @param TaskCategoryGetAllAction $taskCategoryGetAllAction
      * @return Response
      */
-    public function index(TaskCategoryGetAllRequest $request, TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
+    public function index(TaskCategoryGetAllAction $taskCategoryGetAllAction): Response
     {
-        $taskCategories = $taskCategoryGetAllAction($request);
+        $taskCategories = $taskCategoryGetAllAction();
 
         return Inertia::render('TaskCategories/Index', [
             'taskCategories' => $taskCategories,
-            'searchTerm' => $request->search
         ]);
     }
 

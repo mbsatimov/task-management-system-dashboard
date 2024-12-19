@@ -26,7 +26,7 @@ const search = ref(props.searchTerm || "")
 watch(search, value =>
   debounce(
     () =>
-      router.get(`/groups/edit/${props.group.id}`, { search: value }, { preserveState: true }),
+      router.get(`/groups/${props.group.id}/edit`, { search: value }, { preserveState: true }),
     500
   )()
 )
@@ -66,8 +66,8 @@ const submit = () => {
         </CardHeader>
         <CardContent>
           <div>
-            <Input v-model="form.title" name="name" placeholder="Name" />
-            <FormMessage>{{ form.errors.title }}</FormMessage>
+            <Input v-model="form.name" name="name" placeholder="Name" />
+            <FormMessage>{{ form.errors.name }}</FormMessage>
           </div>
           <div class="mt-4">
             <h2 class="mb-2 text-lg font-semibold">Users</h2>

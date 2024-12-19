@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Check, ChevronsUpDown } from "lucide-vue-next"
 import { router, useForm } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -15,7 +16,7 @@ import { ref, watch } from "vue"
 import { debounce } from "lodash"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
-import { cn } from "@/lib/utils"
+import { cn, formatToDateTimeLocal } from "@/lib/utils"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
@@ -56,7 +57,7 @@ const form = useForm<{
   title: props.task.title,
   description: props.task.description,
   video: props.task.video,
-  deadline: props.task.deadline,
+  deadline: formatToDateTimeLocal(props.task.deadline),
   category_id: props.task.category.id,
   mentor_id: props.task.mentor.id,
   student_ids: props.task.students.map(p => p.id),
@@ -195,7 +196,7 @@ const open = ref(false)
             <Link href="/tasks">Cancel</Link>
           </Button>
           <Button :disabled="form.processing" class="primary-btn" type="submit">
-            Create
+            Update
           </Button>
         </CardFooter>
       </Card>
