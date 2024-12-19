@@ -8,11 +8,12 @@
 
 This is a simple dashboard for managing tasks.
 
-## Running the Application with Docker
 
-You can easily run this application using Docker. Start the container with the following command:
+## Installation
 
-### 1. Clone this repository
+Follow these steps to set up the application locally:
+
+### 1. Clone the Repository
 
 ```sh
 git clone https://github.com/mbsatimov/task-management-system-dashboard
@@ -21,18 +22,59 @@ cd task-management-system-dashboard
 
 ### 2. Copy the .env file
 
-Copy the `.env.example` file to `.env` and update the necessary environment variables if needed.
-
-### 3. Run the migrations
+Copy the .env.example file to .env:
 
 ```sh
-sail artisan migrate
-sail php artisan db:seed
+cp .env.example .env
 ```
 
-### 4. Run the Docker containers
+### 3. Install Dependaecies
 
 ```sh
-sail up -d
-sail npm run dev
+composer install
 ```
+
+### 4. Bring Sail Up
+
+Start the Docker containers with Sail:
+
+```sh
+./vendor/bin/sail up -d
+```
+
+### 5. Generate Application Key
+
+```sh
+./vendor/bin/sail artisan key:generate
+```
+
+### 6. Set Up Database
+
+```sh
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed
+```
+
+### 7. Install Frontend Dependencies
+
+```sh
+./vendor/bin/sail npm install
+```
+
+### 8. Build Frontend Assets
+
+Development Build
+
+```sh
+./vendor/bin/sail npm run dev
+```
+
+Production Build
+
+```sh
+./vendor/bin/sail npm run build
+```
+
+### 9. Access the Application
+
+Visit http://localhost in your browser.
