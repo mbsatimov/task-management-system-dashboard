@@ -15,11 +15,9 @@ class UserStoreAction
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'category_id' => $data['category_id'] ?? null,
+            'student_number' => $data['student_number'] ?? null,
             'password' => bcrypt($data['password']),
-            'details' => [
-                'student_number' => $data['student_number'] ?? null,
-                'category_id' => $data['category_id'] ?? null,
-            ]
         ]);
         $user->syncRoles($data['roles']);
     }

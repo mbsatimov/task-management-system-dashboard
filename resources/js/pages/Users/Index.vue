@@ -69,6 +69,9 @@ if (message.value) {
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead>Group</TableHead>
+          <TableHead>Student Number</TableHead>
           <TableHead class="text-end">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -81,6 +84,9 @@ if (message.value) {
               {{ role.name }}
             </Badge>
           </TableCell>
+          <TableCell>{{ user.category?.name || '-' }}</TableCell>
+          <TableCell>{{ user.group?.name || '-' }}</TableCell>
+          <TableCell>{{ user.student_number || '-' }}</TableCell>
           <TableCell class="flex justify-end gap-2">
             <Button as-child size="icon">
               <Link :href="`/users/${user.id}/edit`">

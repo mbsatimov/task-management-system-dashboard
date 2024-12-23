@@ -17,8 +17,8 @@ class TaskGetPaginatedAction
         $query = Task::query();
 
         if ($request->has('search') && $request->search) {
-            $search = strtolower($request->search);
-            $query->whereRaw('LOWER(title) like ?', ["%$search%"]);
+            $search = $request->search;
+            $query->whereRaw('title ilike ?', ["%$search%"]);
         }
 
         return $query->with(['category', 'mentor'])->withCount('students')->paginate(20)->withQueryString();

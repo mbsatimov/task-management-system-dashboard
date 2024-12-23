@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Check, ChevronsUpDown } from "lucide-vue-next"
+import { Check, ChevronsUpDown, XIcon } from "lucide-vue-next"
 import { router, useForm } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -183,6 +183,20 @@ const open = ref(false)
             </Popover>
             <FormMessage>{{ form.errors.mentor_id }}</FormMessage>
           </div>
+          <div class="mt-4">
+            <h2 class="mb-2 text-lg font-semibold">Users</h2>
+            <div>
+              <div class="flex flex-wrap gap-4">
+                <Badge v-for="student in form.students" :key="student.id" class="gap-1">
+                  {{ student.name }}
+                  <button type="button" @click="handleChange(student)">
+                    <XIcon class="size-4" />
+                  </button>
+                </Badge>
+              </div>
+            </div>
+            <FormMessage>{{ form.errors.student_ids }}</FormMessage>
+          </div>
         </CardContent>
         <CardFooter>
           <Button as-child variant="secondary">
@@ -197,6 +211,7 @@ const open = ref(false)
 
     <Card>
       <CardHeader>
+        <CardTitle class="text-xl">Students</CardTitle>
         <Input
           v-model="search"
           class="max-w-md"

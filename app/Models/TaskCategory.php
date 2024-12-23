@@ -26,4 +26,12 @@ class TaskCategory extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
 }

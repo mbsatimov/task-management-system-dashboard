@@ -20,7 +20,6 @@ class TaskStoreAction
             'category_id' => $data['category_id'],
             'mentor_id' => $data['mentor_id'],
         ]);
-
         $task->students()->attach($data['student_ids']);
     }
 }

@@ -30,8 +30,8 @@ const form = useForm<
   name: user.name,
   email: user.email,
   password: undefined,
-  student_number: user.details?.student_number ?? undefined,
-  category_id: user.details?.category_id ?? undefined,
+  student_number: user?.student_number ?? undefined,
+  category_id: user?.category_id ?? undefined,
   roles: user.roles.map(role => role.name),
 })
 

@@ -19,11 +19,9 @@ class UserGetPaginatedAction
         $query->where(function ($query) use ($request, $role) {
             // Search filter
             if ($request->has('search') && $request->search) {
-                $search = strtolower($request->search);
-                $query->where(function ($subQuery) use ($search) {
-                    $subQuery->whereRaw('LOWER(name) like ?', ["%$search%"])
-                        ->orWhereRaw('LOWER(email) like ?', ["%$search%"]);
-                });
+                $search = $request->search;
+                $query->where('name', 'ilike', "%$search%")
+                    ->orWhere('email', 'ilike', "%$search%");
             }
 
             // Role filter
@@ -33,6 +31,6 @@ class UserGetPaginatedAction
                 });
             }
         });
-        return $query->with(['roles'])->paginate(20)->withQueryString();
+        return $query->with(['roles', 'category', 'group'])->paginate(20)->withQueryString();
     }
 }

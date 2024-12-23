@@ -18,7 +18,7 @@ class PermissionGetAllAction
 
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where('name', 'like', "%$search%");
+            $query->where('name', 'ilike', "%$search%");
         }
 
         return $query->get();

@@ -97,6 +97,7 @@ const submit = () => {
 
     <Card>
       <CardHeader>
+        <CardTitle class="text-xl">Students</CardTitle>
         <Input
           v-model="search"
           class="max-w-md"

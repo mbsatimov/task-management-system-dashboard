@@ -17,10 +17,15 @@ class RoleSeeder extends Seeder
             'super-admin' => Permission::pluck('name')->toArray(),
             'admin' => [
                 'create role', 'view role', 'update role',
-                'create permission', 'view permission',
+                'view permission',
                 'create user', 'view user', 'update user',
                 'create task', 'view task', 'update task',
             ],
+            'mentor' => [
+                'create task', 'view task', 'update task',
+                'view user',
+            ],
+            'student' => ['view task'],
         ];
 
         foreach ($roles as $roleName => $permissions) {

@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             'view role', 'create role', 'update role', 'delete role',
-            'view permission', 'create permission', 'update permission', 'delete permission',
+            'view permission',
             'view user', 'create user', 'update user', 'delete user',
             'view task', 'create task', 'update task', 'delete task',
         ];
